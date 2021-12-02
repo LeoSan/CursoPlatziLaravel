@@ -1,0 +1,266 @@
+cUENTA zOOM 
+lcuenca.ctr@impaqint.com
+Z00m_741*
+
+
+----------------- FORMA PARA VALIDAR MENSAJE MAS ESPECIFICOS  --------------------------------
+
+$this->withoutExceptionHandling();
+
+
+--------------------------------------------------------------------------------
+https://digitalizacion-test.centropruebas.com/packages
+https://digitalizacion-test.centropruebas.com/login
+http://localhost/impaq-digitalizacion/public/password/reset
+http://impaq-digitalizacion.test/
+
+https://platzi.com/clases/curso-php-laravel/
+
+php artisan cache:clear
+
+npm install
+
+npm run dev 
+
+composer install -> sino  funciona 
+
+composer install --ignore-platform-reqs  -> usa este 
+
+composer update
+
+php artisan key:generate 
+
+php artisan migrate:refresh --seed
+
+php  artisan serve
+
+
+
+
+
+------------------------------ refinada ñor kacos master --------------------
+
+composer install
+
+npm install
+
+npm run dev 
+
+npm run watch
+
+php artisan key:generate 
+
+php artisan migrate:refresh --seed
+
+
+--------------Para Validar los enlaces de tablas ------------------
+
+Paso  1: php artisan tinker --> Manera de validar la conexion con tinker DB::connection()->getPdo();  
+
+Paso 2: $v=Package::with(['csv_link'])->first()  
+
+Pas 3: deberia ver ya la relacion 
+
+     id: 1,
+     nom_package: "Archivo-RAS-Prueba",
+     JLCA: "CAM",
+     archivoMetadato: "demo.csv",
+     num_package: "78542RDS",
+     vers_package: 1,
+     identificador: "Archivo-RAS-Prueba",
+     url_dictamen: null,
+     obs_dictamen: null,
+     activo: 1,
+     cant_files: 100,
+     cant_paginas: 10000,
+     created_at: "2021-03-26 20:21:17",
+     updated_at: "2021-03-26 20:21:17",
+     id_flow: 1,
+     id_entidad: 1,
+     type_file_id: 1,
+     id_status: 1,
+     id_analista: 1,
+     csv_link: Illuminate\Database\Eloquent\Collection {#4194
+       all: [
+         App\Models\Csv {#4192
+           id: 1,
+           nom_csv: "BD_DUG_GOP_RAS_EJEMPLOS_V3",
+           desc_csv: "BD_DUG_GOP_RAS_EJEMPLOS_V3",
+           url_csv: "falta/BD_DUG_GOP_RAS_EJEMPLOS_V3.csv",
+           activo: 1,
+           review: 1,
+           created_at: "2021-03-26 20:21:17",
+           updated_at: "2021-03-26 20:21:17",
+           package_id: 1,
+           user_id: 1,
+         },
+       ],
+     },
+   }
+
+
+
+-----------------------------------------
+
+npm install sweetalert2
+php artisan sweetalert:publish
+
+
+------------------ Limpieza ----------------
+
+php artisan config:Clear
+php artisan cache:Clear
+php artisan route:Clear
+php artisan view:cache
+php artisan clear-compiled
+composer dumpautoload
+composer dump-autoload
+php artisan optimize
+
+
+-------------------Migrate -----------
+Paso 1:
+
+php artisan migrate 
+
+Paso 2: 
+
+php artisan migrate:rollback -> Esto es para ir hacia atras pero cuidado va por cada bath
+
+Esto es cuando inicias un proyecto esto elimina todas las tablas y las va volver ejecutar 
+php artisan migrate:refresh --seed
+
+
+------------------ Git ----------------- 
+
+
+Listas ramas 
+
+git branch -v 
+
+Crear rama y pasarte a ella 
+
+git checkout -b feature/modulo-revisor
+
+
+---------------- En caso de bajar un proyecto nuevo ------------
+Todo desde el directorio del proyecto 
+
+git clone https://github.com/noricumbo/impaq-digitalizacion.git
+
+composer install 
+
+npm install 
+
+php artisan key:generate 
+
+php artisan migrate:refresh --seed
+
+
+--------------- Crear Migrate Modelos y Seeder y Controller y  Request y Router 
+
+php artisan make:migration create_categories_table --create nombreTabla 
+
+php artisan make:controller PageController --resource --model=Page -> Genera los recursos en el controlador y su modelo 
+
+
+El nombre del modelo modelos se deben crear en singular y en mayuscula la primera letra es decir sin S Ejemplo-> Page, Comerce, People, Car 
+php artisan make:model Models/Notificacion -m -s
+
+php artisan make:model Post -a  ó php artisan make:model Post -mcsr 
+para crear el modelo, migration, seeder, factory y un controlador de tipo resource
+
+php artisan make:request Post
+
+php artisan make:seeder UsersTableSeeder  
+
+Comando para crear atributos -> Recuerda crear los roolback eso va en los Down al momento de hacer migrate 
+
+php artisan make:migrate add_score_to_student__subject_table --table nombreTabla 
+php artisan make:migration add_min_max_to_confievals_table --table nombreTabla 
+
+Route::resource('NombreRutaEjem->/expense_report ', 'NombreContrlador->EspenseReportController');
+
+---------------------- Test ------ 
+
+Paso 1: git checkout -b feature/modulo-revisor 
+Paso 2: git pull test
+Paso 3: git pull feature/modulo-revisor 
+Paso 4: commit Mi Rama
+Paso 5: git push 
+Paso 6 DEsde tu rama: git merge test
+Paso 7 Desde rama test: git merge feature/modulo-revisor 
+
+git branch -v 
+git checkout -b feature/modulo-revisor
+
+
+----------------------------------------------------
+php artisan queue:work
+
+
+
+------------------ Congelas tus cambios --------------------------------------------
+git stash
+git stash pop
+
+
+--------------------------------------------------------------
+
+
+$table->foreignId('user_id')->reference('id')->on('users');
+
+ $table->foreignId('user_id')->constrained(); //Manera automatica
+
+-------------------------- DATOS --------------------------
+DAtos 
+
+php artisan migrate
+php artisan migrate:rollback
+
+
+ 
+ ---------------------------- Plugin ------------------ Visual Studios 
+ Laravel Blade Snippets
+ 
+ Laravel 5 Snippets
+ 
+ AutoFileName 
+ 
+ FileNameComplete
+ 
+ PHP Itellisense
+ 
+ PHP Formatter
+ 
+ Auto Close Tag
+ 
+ Auto Rename Tag
+ 
+ seti-icons y vscode-icons
+ 
+ Duplicate selection or line
+ 
+ Babel
+ 
+ npm intellinsense
+ ---------------------------- Comando para ejecutar pruebas  ------------------
+ 
+ 
+ 
+ ---------------------------- Comando mensaje en el servidor esta en mantenimiento  ------------------
+ php artisan down --message "Voy a hacer pipi" --retry=60
+ php artisan up
+ 
+ 
+ Contamos con más relaciones:
+
+1 a 1 —> $this->hasOne(‘App\Model’);
+1 a M —> $this->hasMany(‘App\Model’);
+M a 1 —> $this->belongsToMany(‘App\Model’);
+M a M —> $this->belongsToMany(‘App\Model’);
+
+Es importante resaltar que si mi tabla tiene un código de id que rompe la convención las podemos resaltar de la siguiente forma
+$this->hasMany(‘App\Model’, ‘key_principal’, ‘key_referencia’);
+
+También pueden revisar la documentación
