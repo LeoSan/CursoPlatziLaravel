@@ -7,22 +7,18 @@ adquiriendo todo el conocimiento que brinda Platzi, aqui dejo el listado de mis 
 
 ## Tengo el Listado de cada proyectos
 
-- AppCursoLaravel8
-- app-demo
-- app-electro
-- app-inertiavue
-- AppPrueba
-- Basico_Apis_Laravel_8
-- BasicoTDD
-- CursoTestingLaravel
-- disponibilidad
-- EloquentPractica
-- EloquentyEmailLaravel6
-- LaravelAPiEjemplo
-- LaravelBasicTestTDD
-- LaravelCrudBasic
-- LaravelJestreamVue
-- LaravelTDD
-- PlatziApiEcomerce
-
+- Laravel6_API
+- Laravel6_CRUD_Demo
+- Laravel6_CrudBasic/ciclo
+- Laravel6_DisponibilidadAir
+- Laravel6_EloquentPractica
+- Laravel6_EloquentyEmailLaravel
+- Laravel6_PlatziApiEcomerce
+- Laravel6_TDD
+- Laravel8_ APIS
+- Laravel8_InertiaVue
+- Laravel8_JestreamVueV8
+- Laravel8_LaravelAvanzado
+- Laravel8_TestTDD
+- Project_AppElectro_Laravel8_InertiaVue
 
