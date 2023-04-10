@@ -41,4 +41,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    /*
+        Permite una relación de M-1 para este caso el usuario varios usuarios pueden tener un solo rol
+    */
+    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Role::class,'id');
+    }
+
+    public function membresia(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Membresia::class,'id');
+    }
 }

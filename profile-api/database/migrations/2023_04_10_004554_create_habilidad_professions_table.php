@@ -13,13 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('membresias', function (Blueprint $table) {
+        Schema::create('habilidad_professions', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('Clave Primaria');
-            $table->string('nom_membresia', 250)->nullable()->comment('Nombre del rol');
-            $table->string('dec_membresia', 500)->nullable()->comment('Descripcion del rol');
-            $table->decimal('precio', 8, 2)->nullable()->comment('Precio ');
+            $table->bigInteger('usuario_profesiones_id')->comment('Clave Foranea');
+            $table->string('nom_habilidades', 100)->nullable()->comment('Campo nombre habilidades.');
             $table->boolean('activo')->default(FALSE)->comment('Permite valida si esta activa o no la categoria');
             $table->timestamps();
+            //Deifnición clave foraneas
+            $table->index('usuario_profesiones_id');
         });
     }
 
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('membresias');
+        Schema::dropIfExists('habilidad_professions');
     }
 };
