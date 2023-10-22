@@ -83,7 +83,8 @@ Posicionamiento SEO, al entregar código HTML es mucho más fácil escanear nues
 [![Alt text](https://img.youtube.com/vi/5-r5fgzkQgA/0.jpg)](https://www.youtube.com/watch?v=5-r5fgzkQgA&ab_channel=leonardjosecuencaroa)
 
 **Ejemplo SSR Normal**
-![Video Ejemplo Ajax ](./video/Formulario_Ajax_como_funciona.webm)
+[![Alt text](https://img.youtube.com/vi/snC0G9SKdeA/0.jpg)](https://www.youtube.com/watch?v=snC0G9SKdeA&ab_channel=leonardjosecuencaroa)
+
 
 
 **Comando del Example Para Crear Dev**
