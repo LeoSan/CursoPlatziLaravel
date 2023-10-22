@@ -1,7 +1,7 @@
 # Dummy Desarrollo 
 
 
-##Renderización: 
+## Renderización: 
 
 ```
 Si bien el navegador al final solamente interpreta código HTML, CSS y JavaScript, la forma en que llega ese código es el tipo de renderizado. 
@@ -13,7 +13,7 @@ Cada una cambiará la experiencia de los usuarios en un sitio web, desde la perc
 
 - Client Side Rendering (SPA)
 - Server Side Rendering (SSR)
-- Static Site Generation (SSG)
+- Static Site Generation (SSG) -> Ignoraremos esto mientras XD
 
 ## SPA -> 
 
