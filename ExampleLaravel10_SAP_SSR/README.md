@@ -80,10 +80,10 @@ Posicionamiento SEO, al entregar código HTML es mucho más fácil escanear nues
 - .env nombre de base de datos -> `DB_DATABASE=example`
 
 **Ejemplo SAP Ajax**
-![Video Ejemplo Ajax ](./video/Formulario_Ajax_como_funciona.webm)
+[![Alt text](https://img.youtube.com/vi/5-r5fgzkQgA/0.jpg)](https://www.youtube.com/watch?v=5-r5fgzkQgA&ab_channel=leonardjosecuencaroa)
 
-**Ejemplo SSR Ajax**
-![Video Ejemplo Ajax ](./video/Formulario_Normal_como_funciona.webm)
+**Ejemplo SSR Normal**
+![Video Ejemplo Ajax ](https://www.youtube.com/watch?v=5-r5fgzkQgA&ab_channel=leonardjosecuencaroa)
 
 
 **Comando del Example Para Crear Dev**
