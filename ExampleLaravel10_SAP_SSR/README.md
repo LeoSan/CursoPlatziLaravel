@@ -73,18 +73,26 @@ Posicionamiento SEO, al entregar código HTML es mucho más fácil escanear nues
 - Cuándo tenemos una aplicación web creada en cualquier librería frontend y queremos mejorar aspectos de rendimiento y posicionamiento
 - Cuándo queremos utilizar funcionalidades más complejas como autenticación, inicios y registro de sesión
 
+
+
+
 **Comando del Example Para iniciar Dev**
 - composer dump-autoload
 - php artisan migrate 
 - php artisan storage:link
 - .env nombre de base de datos -> `DB_DATABASE=example`
 
+**Puntos Importantes**
+- Archivo JavaScript    ->  [Aqui](https://github.com/LeoSan/CursoPlatziLaravel/blob/main/ExampleLaravel10_SAP_SSR/public/js/post.js)
+- Archivo Controlador   ->  [Aqui](https://github.com/LeoSan/CursoPlatziLaravel/blob/main/ExampleLaravel10_SAP_SSR/app/Http/Controllers/PostController.php)
+- Archivo Formulario    ->  [Aqui](https://github.com/LeoSan/CursoPlatziLaravel/blob/main/ExampleLaravel10_SAP_SSR/resources/views/post/formAjax.blade.php)
+
+
 **Ejemplo SAP Ajax**
 [![Alt text](https://img.youtube.com/vi/5-r5fgzkQgA/0.jpg)](https://www.youtube.com/watch?v=5-r5fgzkQgA&ab_channel=leonardjosecuencaroa)
 
 **Ejemplo SSR Normal**
 [![Alt text](https://img.youtube.com/vi/snC0G9SKdeA/0.jpg)](https://www.youtube.com/watch?v=snC0G9SKdeA&ab_channel=leonardjosecuencaroa)
-
 
 
 **Comando del Example Para Crear Dev**
