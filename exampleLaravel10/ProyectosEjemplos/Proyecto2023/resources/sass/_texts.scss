@@ -1,0 +1,237 @@
+/* Text estatus */
+
+.text-estatus-providencia {
+    color: $e-providencia;
+}
+.text-estatus-solventado {
+    color: $e-solventada;
+}
+
+.text-estatus-captura {
+    color: $e-captura;
+}
+
+.text-estatus-formulario_borrador {
+    color: $e-captura;
+}
+
+.text-estatus-formulario_activo {
+    color: $e-admitida;
+}
+
+.text-estatus-formulario_historico {
+    color: $e-solventado;
+}
+
+.text-estatus-revision {
+    color: $e-revision;
+}
+
+.text-estatus-en_revision {
+    color: $e-revision;
+}
+
+.text-estatus-rechazado_dnpj {
+    color: $e-rechazado_dnpj;
+}
+
+.text-estatus-desestimado {
+    color: $e-desestimado;
+}
+
+.text-estatus-rechazado_analista {
+    color: $e-rechazado_analista;
+}
+
+.text-estatus-pendiente {
+    color: $e-pendiente;
+}
+
+.text-estatus-sin_atender_pgr {
+    color: $e-sin_atender_pgr;
+}
+
+.text-estatus-turnado_coordinador {
+    color: $e-turnado_coordinador;
+}
+
+.text-estatus-rechazado_coordinador {
+    color: $e-rechazado_coordinador;
+}
+
+.text-estatus-turnado_procurador {
+    color: $e-turnado_procurador;
+}
+
+.text-estatus-rechazado_procurador {
+    color: $e-rechazado_procurador;
+}
+
+.text-estatus-proceso {
+    color: $e-proceso;
+}
+
+.text-estatus-concluido {
+    color: $e-concluido;
+}
+
+.text-estatus-demanda {
+    color: $e-demanda;
+}
+
+.text-estatus-convenio_pago {
+    color: $e-convenio_pago;
+}
+
+.text-estatus-pago_total {
+    color: $e-pago_total;
+}
+
+.text-estatus-no_procedente{
+    color: $e-no-procedente;
+}
+
+.text-estatus-inadmision{
+    color: $e-inadmision;
+}
+
+.text-estatus-revision_inadmision{
+    color: $e-inadmision;
+}
+
+.text-estatus-solicitud_expediente{
+    color: $e-solicitud_expediente;
+}
+.text-estatus-expediente_recibido{
+    color: $e-turnado_procurador;
+}
+.text-estatus-vigente {
+    color: $e-vigente;
+}
+
+.text-estatus-historico {
+    color: $e-historico;
+}
+
+.text-estatus-planeacion {
+    color: $e-pendiente;
+}
+.text-estatus-admitida {
+    color: $e-admitida;
+}
+
+.text-resolucion-convenio{
+    color:$bg-btn-green-dark;
+}
+
+.text-resolucion-pago-total{
+    color:$sucess;
+}
+
+.text-resolucion-demanda{
+    color:$bg-btn-pink;
+}
+
+.text-estatus-otro_descargo{
+    color:$e-otro_descargo;
+}
+
+.text-estatus-informacion_pendiente{
+    color:$e-informacion_pendiente;
+}
+
+.text-estatus-finalizado{
+    color:$e-finalizado;
+}
+.text-estatus-espera{
+    color:$e-espera;
+}
+.text-estatus-incumplida{
+    color:$e-incumplida;
+}
+.text-estatus-plazo_vencido{
+    color:$e-plazo_vencido;
+}
+
+//Estatus Solicitud de Expediente Auditoria
+
+.text-estatus-solicitud_solicitada{
+    color:$e-solicitud_solicitada;
+}
+.text-estatus-solicitud_recibida{
+    color:$e-solicitud_recibida;
+}
+.text-estatus-solicitud_plazo_vencido{
+    color:$e-solicitud_plazo_vencido;
+}
+.text-estatus-solicitud_prorroga{
+    color:$e-solicitud_prorroga;
+}
+.text-estatus-solicitud_prorroga{
+    color:$e-solicitud_prorroga;
+}
+.text-estatus-solicitud_incumplimiento{
+    color:$e-solicitud_incumplimiento;
+}
+
+//Estatus Auditorias
+.text-estatus-incumplimient{
+    color:$e-incumplimiento;
+}
+.text-estatus-incumplimiento_sin_expediente{
+    color:$e-solicitud_incumplimiento;
+}
+.text-estatus-expediente_recibido_sin_informacion{
+    color:$e-expediente_recibido_sin_informacion;
+}
+.text-estatus-incumplimiento{
+    color:$e-incumplimiento;
+}
+.text-estatus-finalizada{
+    color:$e-finalizada;
+}
+
+/* Commons */
+
+.text-small{
+    font-size: 12px !important;
+}
+
+.text-tertiary {
+    color: $tertiary;
+}
+
+.text-default-gray {
+    color: $default-gray;
+}
+
+.text-gray {
+    color: $gray !important;
+}
+
+.text-graylight {
+    color: $graylight !important;
+}
+
+.text-graydark {
+    color: $graydark !important;
+}
+
+.text-table {
+    color: $color-table !important;
+}
+.text-gray-light{
+    color: $gray-light;
+}
+
+.text-turquoise{
+    color: $turquoise!important;
+}
+
+.text-grayAlt {
+    color: $border-gray;
+}
+
+.txt-parrafo-error{
+    font-size: $font-12;
+}

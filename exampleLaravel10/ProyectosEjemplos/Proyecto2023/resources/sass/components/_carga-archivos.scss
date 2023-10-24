@@ -1,0 +1,19 @@
+.carga-archivos {
+    font-size: 14px;
+
+    input[type="text"] {
+        height: 52px;
+    }
+}
+
+.boton-carga {
+    .datos-extras {
+        background-color: #e7e7ec;
+    }
+
+    &:hover {
+        .datos-extras {
+            background-color: $default-gray;
+        }
+    }
+}

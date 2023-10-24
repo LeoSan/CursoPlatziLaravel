@@ -5,10 +5,10 @@
 ## Rutas 
 ## Controladores 
 ## Vistas 
-## Blade template 
-## Migraciones 
-## Querry Builder
-## Introducción Eloquent 
+## Blade template        -> Estamos aqui 
+## Migraciones           -> Por definir 
+## Querry Builder        -> Por definir
+## Introducción Eloquent -> Por definir 
 ## Relaciones Eloquent
 ## Formularios 
 ## Kit de inicio  
@@ -63,7 +63,6 @@
 - php artisan route:cache -> Solo hacerlo en producción 
 
 
-
 **Comandos de Make**
 - `php artisan make:controller UserController` -> Crea un controlador 
 - `php artisan make:controller PhotoController --resource` -> crea controlador y sus rutas en total son 7 metodos, [index, show, update, create, destroy, patch, put]
@@ -74,6 +73,20 @@
 
 **Comandos Blade Paginacion**
 - php artisan vendor:publish --tag=laravel-pagination
+
+**Comandos Server** 
+- php artisan serve --port=8002
+- php artisan tinker
+
+
+**Comandos Artisan BD:**
+- php artisan db:seed --class=UsersTableSeeder 
+- php artisan db:seed --class=UpdateCatalogoElementosSeeder
+- php artisan migrate:refresh --seed 
+- php artisan make:migration add_columna_to_casos_table
+- php artisan make:migration create_casos_table
+- php artisan migrate --path=database/migrations/2023_08_01_151922_add_column_to_denuncias_table.php
+- php artisan make:seeder *Nombre*Seeder
 
 
 # Rutas 
@@ -576,6 +589,157 @@ Hello, @{{ name }}.
 De esta manera, se puede evitar que Blade procese una directiva y se puede imprimir la directiva sin procesar en la salida HTML.
 ```
 
+## 36. Directiva @json
+
+> La directiva @json permite que los datos se muestren como formato JSON en la página web.
+
+**Notas**
+- @Json viene de la paleta -> Illuminate\Support\Js::from.
+- 
+
+```
+//Por ejemplo, en lugar de llamar a json_encode manualmente como en este ejemplo:
+
+<script>
+    var app = <?php echo json_encode($array); ?>;
+</script>
+//Se puede usar la directiva Illuminate\Support\Js::from de la siguiente manera:
+
+<script>
+    var app = {{ Illuminate\Support\Js::from($array) }};
+</script>
+
+
+//Además, en las últimas versiones del esqueleto de la aplicación Laravel, se incluye una fachada Js que proporciona un acceso más conveniente a esta funcionalidad dentro de las plantillas Blade:
+
+<script>
+    var app = {{ Js::from($array) }};
+</script>
+
+Además, en las últimas versiones del esqueleto de la aplicación Laravel, se incluye una fachada Js que proporciona un acceso más conveniente a esta funcionalidad dentro de las plantillas Blade:
+
+<script>
+    let app = @json($post);
+	console.log(app);
+</script>
+```
+
+## 37. Directivas condicionales
+
+>  Aprenderás sobre las diferentes directivas disponibles, que son @if, @unless, @isset y @empty
+
+```
+//En Blade, puedes construir sentencias condicionales utilizando las directivas @if, @elseif, @else y @endif, que funcionan de manera similar a sus contrapartes en PHP. Por ejemplo:
+
+@if (count($records) === 1)
+	Tengo un registro.
+@elseif (count($records) > 1)
+	Tengo varios registros.
+@else
+	No tengo registros.
+@endif
+
+//Además, Blade proporciona una directiva @unless para mayor comodidad:
+
+@unless (Auth::check()) //Espera que la directiva pase un false para poder entrar 
+	No has iniciado sesión.
+@endunless
+
+@isset($records)
+// $records está definido y no es nulo...
+@endisset
+
+@empty($records)
+// $records está "vacío"...
+@endempty
+```
+
+## 38. Directivas Environments
+
+> En Blade, puedes verificar si la aplicación se está ejecutando en el entorno de producción utilizando la directiva @production:
+**Nota**
+- Tu archivo .env debe existir el valor en este caso -> APP_ENV=local cuando se pasa a produccion es APP_ENV=production
+
+```
+@env('local')
+// La aplicación se está ejecutando en "staging"...
+@endenv
+
+@env(['local', 'production'])
+// La aplicación se está ejecutando en "staging" o "production"...
+@endenv
+```
+
+## 39. Directivas switch
+
+```
+//En Blade, puedes construir declaraciones switch utilizando las directivas @switch, @case, @break y @default:
+
+@switch($i)
+    @case(1)
+        Primer caso...
+        @break
+ 
+    @case(2)
+        Segundo caso...
+        @break
+ 
+    @default
+        Caso predeterminado...
+@endswitch
+```
+
+
+## 40. 41. 42  Directiva @foreach @forelse @while
+
+
+```
+ //Blade proporciona directivas simples para trabajar con las estructuras de bucle de PHP. Cada una de estas directivas funciona de manera idéntica a sus contrapartes de PHP:
+
+@for ($i = 0; $i < 10; $i++)
+    El valor actual es {{ $i }}
+@endfor
+ 
+@foreach ($users as $user)
+    <p>Este es el usuario {{ $user->id }}</p>
+@endforeach
+ 
+@forelse ($users as $user)
+    <li>{{ $user->name }}</li>
+@empty
+    <p>No hay usuarios</p>
+@endforelse
+ 
+@while (true)
+    <p>Estoy en un bucle infinito.</p>
+@endwhile
+```
+
+43. Continue y break
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -972,6 +1136,78 @@ del modelo principal.
 
 ![Tablas poliformicas](./info/info_005.png)
 
+## 104. Consultas a la relación:  with()
+
+> En Laravel 10, las relaciones entre modelos de la base de datos permiten recuperar datos relacionados de forma sencilla y eficiente. 
+- Una vez definida la relación, podemos utilizar los métodos de consulta para recuperar los datos que necesitamos.
+
+**Ejemplo**
+- Si queremos recuperar los datos relacionados de un solo modelo, podemos utilizar el método **with()** en una consulta. 
+- Este método acepta como argumento el nombre de la relación y carga los datos relacionados junto con el modelo original. 
+- Si tenemos un modelo **User** con una relación **posts()** a través del modelo Post, podemos cargar los datos relacionados de la siguiente manera:
+
+
+```
+//Este código carga los posts relacionados del usuario con ID 1. Podemos acceder a los datos relacionados utilizando la propiedad posts del modelo:
+
+$user = User::with('posts')->find(1);
+
+foreach ($user->posts as $post) {
+   echo $post->title;
+}
+
+```
+
+**Otro Ejemplo**
+> Si queremos hacer una consulta que incluya los datos relacionados de varios modelos, podemos encadenar los métodos **with() y where()** en la consulta. 
+-  Si tenemos un modelo **User** con una relación **posts()** a través del modelo **Post**, y un modelo **Comment** con una relación **user()** a través del modelo **User**,
+- podemos cargar los datos relacionados de esta manera:
+
+```
+//Este código carga los usuarios y sus posts relacionados para los comentarios creados hace menos de 7 días. 
+//Podemos acceder a los datos relacionados de la misma manera que en el ejemplo anterior:
+$comments = Comment::with('user.posts')
+               ->where('created_at', '>', Carbon::now()->subDays(7))
+               ->get();
+			   
+foreach ($comments as $comment) {
+   echo $comment->user->name;
+   echo $comment->user->posts->count();
+}			   
+```
+
+**Otro Ejemplo**
+> Tambien podemos hacer insercciones usando las relaciones solo si son relaciones toMany, hasOne, HasMany 
+
+```
+//Podemos consultar un usuario
+$user = User::find(1)->first();
+
+//Digamos que ese usuario tiene una relacion con un Post 
+$user->post()->create([
+'name_post'=>'Hola mundo'
+'desc_post'=>'Hola mundo es una descripcion'
+'fecha_post'=>now()
+])
+
+//Claro la clave aqui y hay que tener cuidado es que nuestros modelos tengan ya las relaciones 
+//formuladas creadas y que tengamos en nuestros modelos los proteted = []; ya generados para que nos permitan realizar inserccion pro consultas 
+```
+
+**Otro Ejemplo Polimórficas**
+> Tambien podemos hacer insercciones en relaciones poliformicas, esto hay que tener muchos cuidado ya que tu relacion ya debes saber que debe usar el metodo "morphMany" ó "morphToMany"
+
+```
+//Consultamos el usuario, claro para este ejemplo estamos diciendo que un usuario puede tener multiples atach poliformicos ya que puedes tener untag en comentario o un post  
+$user = User::find(1)->first();
+$user->tags()->attach(1); //Para Crear : No usamos create usamos attach();
+$user->tags()->attach([1,2,3]); //Para Crear varios  podemos usar los corchetes de arreglos
+$user->tags()->sync([1,2,3]); //Para actualizar este metodo valida si 1 o 2 esta creado y solo genera el que no este en la table previamente para este ejemplo crea el 3 ojo tambien elimina si ya que funciona como un Update
+$user->tags()->detach(1); //Para eliminar: No usamos delete usamos detach();
+
+
+
+
 ## 104. Seeders
 
 **Concepto**
@@ -1019,6 +1255,8 @@ y relacionar modelos de manera rápida y sencilla.
 - Al utilizarlos, puedes agilizar el proceso de desarrollo y pruebas de tu aplicación de manera significativa.
 
 ![Tablas](./info/info_006.png)
+
+
 
 # Formularios
 

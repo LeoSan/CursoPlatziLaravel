@@ -1,0 +1,127 @@
+.table-general {
+    border-collapse:separate;
+    border-spacing: 0 0.5rem;
+
+    &.nofixed {
+        table-layout: initial;
+    }
+
+    thead {
+        tr {
+            th {
+                border: none;
+                font-size: $font-10;
+                font-weight: 600;
+                color: $white;
+                text-align: center;
+                background-color: $gray;
+            }
+        }
+    }
+
+    tbody {
+        th {
+            border: none;
+            font-size: $font-10;
+            font-weight: bold;
+            color: $white;
+            text-align: center;
+            background-color: $gray;
+        }
+
+        tr {
+            td {
+                font-size: $font-10;
+                text-align: center;
+                font-weight: bold;
+                padding: 10px 5px;
+                color: $gray;
+                background-color:$border-f;
+                border-bottom-width: 6px;
+                a {
+                    font-size: $font-10;
+                    color: $gray;
+                }
+                ul {
+                    text-align: center;
+                    width: 100%;
+
+                    li {
+                        list-style: none;
+                        display: inline-block;
+                        margin: 6px;
+                    }
+                }
+            }
+
+            a {
+                font-weight: 700 !important;
+                text-decoration: underline !important;
+            }
+        }
+    }
+
+    &.tabla-no-style {
+        margin: 0 auto;
+
+        > tbody {
+            > tr {
+                > td {
+                    border: none;
+                }
+
+                &:hover {
+                    background: transparent;
+                    box-shadow: initial;
+                }
+            }
+        }
+    }
+  }
+
+/*Paginadores*/
+
+.pagination{
+    .page-item{
+        margin: 0 3.2px 0 5.6px !important;
+        border-radius: 3.2px !important;
+        font-size: 10px !important;
+    }
+
+    .page-link.active, .active>.page-link{
+        color: $turquoise !important;
+        border: solid 0.8px $white-b !important;
+        background-color: $border-f !important;
+        font-weight: bold;
+        font-size: 0.6rem !important; /*10px*/
+        z-index: 3 !important;
+    }
+
+    .page-link{
+        color: $graylight !important;
+        font-size: $font-10 !important;
+    }
+
+    .previous-p{
+        background-color: $graylight !important;
+        color: $white-b !important;
+        font-weight: bold !important;
+    }
+
+    .next-p{
+        background-color: $graylight !important;
+        color: $white-b !important;
+        font-weight: bold !important;
+    }
+
+}
+
+.no-data-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $border-f;
+    border: 1px solid $graydark;
+    color: $primary-dark;
+    font-weight: bold;
+  }

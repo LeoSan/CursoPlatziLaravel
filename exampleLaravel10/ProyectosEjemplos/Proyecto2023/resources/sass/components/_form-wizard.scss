@@ -1,0 +1,124 @@
+.form-wizard {
+    .step {
+        position: relative;
+        padding: 0 15px;
+        width: 140px;
+
+        .step-number {
+            height: 30px;
+            width: 30px;
+        }
+
+        &::before {
+            position: absolute;
+            content: '';
+            border-bottom: dashed 1px $border-gray;
+            left: 0;
+            top: 15px;
+            width: 50%;
+        }
+
+        &::after {
+            position: absolute;
+            content: '';
+            border-bottom: dashed 1px $border-gray;
+            right: 0;
+            top: 15px;
+            width: 50%;
+        }
+
+        &:first-of-type {
+            &::before {
+                display: none;
+            }
+        }
+
+        &:last-of-type {
+            &::after {
+                display: none;
+            }
+        }
+    }
+}
+
+
+.form-wizard-second {
+    .tag-form-second {
+        padding: 5px;
+        background-color: #43c3de;
+        border-radius: 30px;
+    }
+
+    .tag-titulo-second {
+        font-weight: 700;
+        color: #28293d;
+    }
+
+    .tag-form-second{
+        background-color: $primary;
+        border-radius: 30px;
+        height: 63px;
+        padding: 5px;
+        width: 63px;
+
+        div{
+            border-radius: 30px;
+            border: none;
+            color: $white;
+            display: flex;
+            flex-direction: row;
+            font-size: $font-24;
+            font-weight: bold;
+            height: 53px;
+            justify-content: center;
+            padding: 8px;
+            width: 53px;
+
+        }
+        span{
+            font-size: $font-12;
+            color: $graydark;
+            font-weight: bold;
+        }
+    }
+    .tag-activo-second{
+        background-color: $primary-dark;
+    }
+    .tag-inactivo-second{
+        color: $white;
+        display: flex;
+        flex-direction: row;
+        font-size: $font-24;
+        font-weight: bold;
+        justify-content: center;
+        height: 63px;
+        padding: 5px;
+        width: 63px;
+    }
+}
+
+.form-wizard-big {
+    > li {
+        width: 125px;
+    }
+
+    .step {
+        height: 60px;
+        width: 60px;
+
+        .inner {
+            font-size: $font-24;
+        }
+    }
+
+    .activo {
+        .inner {
+            background-color: $primary-dark;
+        }
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+}

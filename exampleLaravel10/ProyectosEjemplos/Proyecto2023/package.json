@@ -1,0 +1,28 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "watch": "vite build --watch"
+    },
+    "devDependencies": {
+        "@popperjs/core": "^2.11.6",
+        "axios": "^1.1.2",
+        "bootstrap": "^5.2.3",
+        "laravel-vite-plugin": "^0.7.5",
+        "sass": "^1.56.1",
+        "vite": "^4.0.0"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^6.4.0",
+        "bignumber.js": "^9.1.1",
+        "chart.js": "^4.3.0",
+        "imask": "^6.6.3",
+        "lodash": "^4.17.21",
+        "moment": "^2.29.4",
+        "tinymce": "^5.10.0",
+        "tom-select": "^2.2.2",
+        "uuid": "^9.0.0"
+    }
+}

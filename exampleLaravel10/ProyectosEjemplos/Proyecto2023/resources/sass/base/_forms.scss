@@ -1,0 +1,151 @@
+// Limpieza de los estilos y esqueleto base
+label{
+    font-size: $font-12;
+    font-weight: bold;
+    margin-bottom:5px;
+    color: $graydark;
+}
+
+p{
+    font-size: $font-12;
+    overflow-wrap: break-word;
+}
+
+input {
+    background: none;
+    border: none;
+    outline: none;
+    font-size: inherit;
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 300px;
+  }
+
+input::placeholder {
+    color: $border-gray !important;
+}
+
+.bg-w{
+    background-color: $white !important;
+}
+
+button{
+    background: none;
+    border: none;
+    outline: none;
+    font-size: inherit;
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+/*Estilos para formularios*/
+.form-air{
+background-color: $white;
+
+    label{
+        width: auto;
+        height: 18px;
+        font-family: Montserrat;
+        font-size: $font-14;
+        font-weight: bold;
+        color: $gray;
+    }
+
+    input[type=text]{
+        height: 52px;
+        border-radius: 4px;
+        border: solid 1px $border-light-gray;
+        background-color: $white;
+    }
+
+    input[type=email]{
+        height: 52px;
+        border-radius: 4px;
+        border: solid 1px $border-light-gray;
+        background-color: $white;
+    }
+    input[type=tel]{
+        height: 52px;
+        border-radius: 4px;
+        border: solid 1px $border-light-gray;
+        background-color: $white;
+    }
+    input[type=date]{
+        height: 52px;
+        border-radius: 4px;
+        border: solid 1px $border-light-gray;
+        background-color: $white;
+    }
+    textarea{
+        background-color: $white;
+    }
+    span {
+        font-family: Montserrat;
+        font-size: $font-10;
+        font-style: italic;
+        line-height: normal;
+        letter-spacing: normal;
+        color: $graydark;
+    }
+    select{
+        height: 52px;
+        border-radius: 4px;
+        border: solid 1px $border-light-gray;
+        background-color: $white;
+    }
+
+
+}
+.msj-alert-ati{
+    font-weight: 100 !important;
+}
+
+.b-gray{
+    background-color: f8fafb;
+}
+.msj-validacion{
+    width: auto;
+    margin-top: 10px;
+    p {
+        font-size: $font-12 !important;
+        color: $danger !important;
+        font-weight: 600 !important;
+    }
+
+}
+
+.br-dark{
+    border: solid 2px #555770;
+}
+.bg-multa{
+  background-color: $default-gray;
+  border: 5px solid white;
+}
+
+.f-6{
+    font-size: $font-6;
+}
+.f-8{
+    font-size: $font-8;
+}
+.f-10{
+    font-size: $font-10;
+}
+.f-12{
+    font-size: $font-12;
+}
+.f-18{
+    font-size: $font-18;
+}
+
+.br-danger{
+    border: 1px solid red;
+}
+
+.cursor-p{
+    cursor: pointer !important;
+}

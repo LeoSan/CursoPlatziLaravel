@@ -1,0 +1,58 @@
+.busqueda_casos{
+    min-height: 40px;
+}
+input[type=text].busqueda_casos{
+    background-image: url("data:image/svg+xml;utf8,<svg fill='rgb(85,87,112)' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='16px'><path d='M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z'/></svg>");
+    background-repeat: no-repeat;
+    background-position-x: 99%;
+    background-position-y: 50%;
+    @include media-breakpoint-down(sm) {
+        background-image: none;
+    }
+}
+
+.tabla-casos>thead>tr>th,.tabla-tabla-casos>tbody>tr>td{
+    font-size: 14px;
+    padding: 5px 0 5px 0;
+}
+.tabla-casos>tbody>tr>td>input:read-only{
+    background: none;
+}
+
+.tabla-casos>thead>tr>th{
+    background-color: #555770 !important;
+    color: white;
+    font-weight: bold;
+}
+
+.monto_infraccion:read-only{
+    background-color: transparent;
+    font-weight: normal;
+}
+.monto_infraccion{
+    background-color: #b9d2f6;
+    font-weight: 500;
+}
+
+.border-md-end{
+     @media (min-width: 770px){
+         border-right:var(--bs-border-width) var(--bs-border-style) var(--bs-border-color)!important
+     }
+}
+.text-sin-subrayado{
+    text-decoration: none;
+}
+.table-usuarios{
+    @media (max-width: 500px) {
+        display: none;
+    }
+}
+.card-bandeja-usuarios{
+    margin: 12px 0;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+    border-color: none !important;
+}
+.fs-movil{
+    font-size: 12px;
+}

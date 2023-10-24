@@ -1,0 +1,144 @@
+// Body
+$body-bg: #f8fafc;
+/*
+|--------------------------------------------------------------------------
+| Colors
+|--------------------------------------------------------------------------
+*/
+
+$primary:       #43c3de;
+$secondary:     #778ca2;
+$tertiary:      #2F9CB1;
+
+$primary-dark:  #227181;
+$tertiary-alt:  #67c5d7;
+$color-table:   #555770;
+
+
+$sucess:        #05a660;
+$info:          #009dd7;
+$danger:        #e63535;
+$warning:       #fdac42;
+
+$xlight:        #f8fafb;
+$light:         #c7c9d9;
+$gray:          #555770;
+$dark:          #363a41;
+
+$border-gray:           #8f90a6;
+$border-regular:        #dee2e6;
+$border-light-gray:     #c7c9d9;
+
+
+$default-gray:          #f2f2f5;
+
+
+$graydark:              #28293d;
+$graylight:             #778ca2;
+$thead:                 #efebdd;
+
+$white:                 #ffffff;
+$border-f:              #f8fafb;
+
+$turquoise:             #2f9cb1;
+$white-b:               #e8ecef;
+$title-dark:            #1c1c28;
+$bg-alert:              #e5f0ff;
+$bg-btn-general:        #db473c;
+$bg-btn-pink:           #ff5c5c;
+$bg-btn-green-dark:     #2b614a;
+$bg-morado-hover:       #ac5dd9;
+
+$light-blue:           	#eff9fb;
+
+$gray-light:            #c7c9d9;
+$blue-dark:             #004fc4;
+/*
+|--------------------------------------------------------------------------
+| Table
+|--------------------------------------------------------------------------
+*/
+$table-cell-padding-y:        0.8rem;
+
+
+/*
+|--------------------------------------------------------------------------
+| Estatus
+|--------------------------------------------------------------------------
+*/
+$e-captura:                 #8184ba;
+$e-revision:                #004fc4;
+$e-en_revision:             #00b7c4;
+$e-rechazado_analista:      #e63535;
+$e-rechazado_dnpj:          #e63535;
+$e-pendiente:               #ff8800;
+$e-sin_atender_pgr:         #8f90a6;
+$e-turnado_coordinador:     #5b8def;
+$e-rechazado_coordinador:   #ff5c5c;
+$e-turnado_procurador:      #15a6d5;
+$e-rechazado_procurador:    #c93030;
+$e-proceso:                 #4d0099;
+$e-concluido:               #05a660;
+$e-demanda:                 #a55ced;
+$e-convenio_pago:           #d861f1;
+$e-pago_total:              #8d759b;
+$e-otro_descargo:           #55485EFF;
+$e-informacion_pendiente:   #1fa89d;
+$e-providencia:             #ff8800;
+$e-solventado:              #045532;
+$e-no-procedente:           #b52429;
+$e-solicitud_expediente:    #a55ced;
+$e-inadmision:              #ff3b3b;
+$e-vigente:                 #1cb473;
+$e-historico:               #73dfe7;
+$e-admitida:                #05a660;
+$e-informe_cargado:         #05a660;
+$e-para_desestimar:         #b52429;
+$e-desestimado:             #8f90a6;
+$e-observaciones_informe:   #05a660;
+$e-informe_actualizado:     #1fa89d;
+$e-validar_informe_auditor: #39d98a;
+$e-finalizado:              #05a660;
+$e-expediente_recibido:     #5b8def;
+$e-proceso_remision:        #15a6d5;
+$e-revision_inadmision:     #73dfe7;
+$e-btn-guardar:             #05a660;
+$e-solventada:              #5b8def;
+$e-reasignar-auditor:       #ff8800;
+$e-incumplida:              #ff8800;
+$e-plazo_vencido:           #b52429;
+$e-espera:                 #1cb473;
+
+//Estatus Solicitud
+$e-solicitud_solicitada:    #5b8def;
+$e-solicitud_recibida:      #1cb473;
+$e-solicitud_plazo_vencido: #ff8800;
+$e-solicitud_prorroga:      #73dfe7;
+$e-solicitud_incumplimiento:#b52429;
+
+//Estatus auditoria
+$e-expediente_recibido_sin_informacion:#b52429;
+$e-incumplimiento:                     #d70808;
+$e-finalizada:                         #05a660;
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Typography
+|--------------------------------------------------------------------------
+*/
+
+$font-family-sans-serif: 'Montserrat', sans-serif;
+$font-6:0.4rem;
+$font-8:0.5rem;
+$font-10:0.625rem;
+$font-12:0.75rem;
+$font-14:0.875rem;
+$font-16:1rem;
+$font-18:1.125rem;
+$font-20:1.3rem;
+$font-24:1.5rem;
+
+
+$form-check-input-bg: white;

@@ -1,0 +1,10 @@
+footer.footer {
+    background-color: lighten($dark, 67%);
+    color: $gray;
+
+    @include media-breakpoint-down(sm) {
+        .copyright {
+            font-size: 12px;
+        }
+    }
+}

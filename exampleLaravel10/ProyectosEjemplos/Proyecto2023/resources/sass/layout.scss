@@ -1,0 +1,694 @@
+// Estilos generales del sitio web y estilización de clases reutilizables
+body {
+    font-family: $font-family-sans-serif;
+}
+
+#app main {
+    min-height: calc(100vh - 146px);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.font-small-size {
+    font-size: 12px !important;
+}
+
+.font-xs-size {
+    font-size: 10px;
+}
+
+.font-regular-size {
+    font-size: 14px;
+}
+
+.input-regular-height {
+    height: 45px !important;
+    font-size: 14px;
+}
+
+.input-filter-height {
+    height: 30px !important;
+    font-size: 14px;
+}
+
+.input-disabled {
+    background-color: #E9ECEF !important;
+    color: $dark;
+
+    &::placeholder {
+        color: lighten($gray, 35%);
+    }
+}
+
+.btn-file {
+    background-color: $default-gray;
+    font-size: 14px;
+    padding: 17px 15px;
+
+    &:hover {
+        background-color: darken($default-gray, 5%);
+    }
+}
+
+.btn-default {
+    background-color: $default-gray;
+    font-size: 14px;
+
+    &:hover {
+        background-color: darken($default-gray, 5%);
+    }
+}
+.btn-default-primary {
+    background-color: $default-gray;
+    font-size: 14px;
+    padding: 10px 15px;
+
+    &:hover {
+        background-color: darken($default-gray, 5%);
+    }
+}
+
+.text-tertiary {
+    color: $tertiary;
+}
+
+.text-gray {
+    color: $gray !important;
+}
+
+.text-graylight {
+    color: $graylight !important;
+}
+
+.text-graydark {
+    color: $graydark !important;
+}
+
+.text-table {
+    color: $color-table !important;
+}
+.text-gray-light{
+    color: $gray-light;
+}
+.text-bluedark{
+    color: $blue-dark;
+}
+
+.fs-small {
+    font-size: 14px;
+}
+
+.p-special {
+    padding: 14px;
+}
+
+a.cerrar-modal {
+    text-decoration: none;
+    display: block;
+    font-size: 30px;
+    line-height: 10px;
+    color: $secondary;
+
+    &:hover {
+        color: darken($secondary, 10%);
+    }
+}
+
+.border-filter {
+    border-color: $white-b;
+    border-radius: 4px;
+}
+
+.btn-accion-detalle {
+    align-items: center;
+    background-color: $graylight;
+    border-radius: 4px;
+    color: white;
+    display: flex;
+    font-size: 14px;
+    font-weight: 600;
+    height: 46px;
+    justify-content: center;
+    line-height: 130%;
+    padding: 0 0.5rem;
+    width: 100%;
+}
+.btn-resolucion-modal {
+    font-size: 14px;
+    font-weight: 600;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    color: white;
+}
+.btn {
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+
+    &:hover {
+        color: white;
+    }
+
+    &:focus {
+        color: white !important;
+    }
+
+    &.btn-secondary {
+        background-color: $secondary;
+        border-color: #778CA2;
+
+        &:hover {
+            background-color: darken($secondary, 6%);
+            color: white;
+        }
+    }
+
+    &.btn-default {
+        background-color: $white-b;
+        border-color: $white-b;
+        color: $graylight;
+
+        &:hover {
+            background-color: darken($white-b, 6%);
+            color: darken($graylight, 5%);
+        }
+
+        &:focus {
+            color: darken($graylight, 5%) !important;
+        }
+    }
+    &.btn-default-primary {
+        background-color: $white-b;
+        border-color: $white-b;
+        color: $graylight;
+
+        &:hover {
+            background-color: darken($white-b, 6%);
+            color: darken($graylight, 5%);
+        }
+
+        &:focus {
+            color: $white-b !important;
+        }
+    }
+    &.btn-cancelar-modal {
+        background-color: $graylight;
+        border-color: $graylight;
+        color: $white;
+
+        &:hover {
+            background-color: darken($graylight, 6%);
+        }
+    }
+
+    &.btn-danger {
+        background-color: $danger;
+        border-color: #ff3333;
+
+        &:hover {
+            background-color: darken($danger, 9%);
+        }
+    }
+
+    &.btn-warning {
+        background-color: $warning;
+        border-color: #ffb833;
+
+        &:hover {
+            background-color: darken($warning, 6%);
+        }
+    }
+
+    &.btn-success {
+        background-color: $sucess;
+        border-color: #0f9f3d;
+
+        &:hover {
+            background-color: darken($sucess, 6%);
+        }
+    }
+
+    &.btn-tertiary {
+        background-color: $tertiary;
+        border-color: $tertiary;
+        color: white;
+
+        &:hover {
+            background-color: darken($tertiary, 6%);
+            color: white;
+
+        }
+    }
+
+    &.btn-turno {
+        background-color: $e-pendiente;
+        border-color: $e-pendiente;
+
+        &:hover {
+            background-color: darken($e-pendiente, 6%);
+        }
+    }
+}
+
+
+.tabla-pgr {
+    border-collapse:separate;
+    border-spacing: 0 0.5rem;
+
+    > thead {
+        tr{
+            th {
+                padding-left: 1rem;
+                padding-right: 1rem;
+                font-size: 12px;
+                background-color: #555770 !important;
+                color: white;
+                font-weight: 600;
+            }
+        }
+    }
+    > tbody {
+        tr{
+            td {
+                padding-left: 1rem;
+                padding-right: 1rem;
+                font-size: 12px;
+                background-color: white;
+                color: $gray;
+                a{
+                    color: $gray;
+                }
+            }
+        }
+    }
+}
+
+.modal-setrass{
+    .modal-header{
+        background-color: #555770;
+        color: white;
+
+        .btn-circle{
+            border-radius: 0px;
+            background-image: url('/images/icons/icon-close-circle.svg');
+            background-size: 30px;
+            background-position: 1px 1px;
+            width: 30px;
+            height: 30px;
+        }
+    }
+}
+.infracciones.form-check-input:checked{
+    background-color: $green;
+    border-color: $green;
+}
+.infracciones.form-check-input:disabled{
+    opacity: 1 !important;
+}
+
+.border-light-gray {
+    border-color: $border-light-gray important;
+}
+
+.border-w-2 {
+    border-width: 2px;
+}
+
+.border-left-primary{
+    border-left: .25rem solid $primary !important;
+    background-color: #A0D5E0FF !important;
+}
+
+.border-left-success{
+    border-left: .25rem solid $success !important;
+    background-color: #9ac5b6 !important;
+}
+
+.border-left-info{
+    border-left: .25rem solid $info !important;
+    background-color: aliceblue !important;
+}
+.border-info{
+    border: solid 2px #9dbff9;
+    border-radius: 4px;
+    background-color: #e5f0ff;
+}
+.border-left-danger{
+    border-left: .25rem solid $danger !important;
+    background-color: #cc9292 !important;
+}
+
+input[type=file]{
+    background-image: url("data:image/svg+xml;utf8,<svg fill='rgb(255,71,71)' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512' width='16px'><path d='M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128z'/></svg>");
+    background-repeat: no-repeat;
+    background-position-x: 99%;
+    background-position-y: 50%;
+    padding-right: 16px;
+}
+
+input[type=file]:read-only,input[type=file]:focus:read-only {
+    background-color: #f8fafc;
+}
+
+input:not([type='checkbox']),input:readonly,input:focus:read-only{
+    background-color: #e2e2e2;
+}
+
+.btn-gral{
+    background-color: $primary;
+    color: white;
+    font-weight: bold;
+}
+.btn-gral:hover{
+    background-color: $turquoise;
+    color: white;
+    font-weight: bold;
+}
+
+.nav-tabs-usuario, .nav-tabs-auditorias {
+    border-bottom: none!important;
+
+    .nav-link {
+        border-right: none !important;
+        border-left: none !important;
+        border-top: none !important;
+        color:$border-gray;
+        font-weight: bold;
+
+        &:hover {
+            border-bottom: 5px solid $primary!important;
+        }
+        &:active {
+            border-bottom: 5px solid $primary!important;
+        }
+
+        &.active {
+            border-bottom: 5px solid $primary!important;
+            color: black;
+            font-weight: bold;
+        }
+    }
+}
+
+.nav-tabs-auditorias {
+    .nav-link {
+        font-size: 14px;
+        font-weight: 600;
+
+        &:hover {
+            border-bottom: 3px solid $primary!important;
+        }
+        &:active {
+            border-bottom: 3px solid $primary!important;
+        }
+
+        &.active {
+            border-bottom: 3px solid $primary!important;
+            font-weight: 600;
+        }
+    }
+}
+
+.btn-rosa{
+    background-color: $bg-btn-pink;
+    color: white;
+    font-weight: bold;
+    &:hover {
+        background-color: darken($bg-btn-pink, 5%);
+    }
+}
+
+.btn-green-dark{
+    background-color: $bg-btn-green-dark !important;
+    color: white !important;
+    font-weight: bold !important;
+    &:hover {
+        background-color: darken($bg-btn-pink, 5%);
+    }
+}
+
+.enlace{
+    color: initial;
+    text-decoration: none;
+}
+
+.enlace-activo{
+    color: initial;
+    text-decoration: solid underline 3px #2f9cb1;
+}
+
+.tabla-multas {
+    border-collapse:separate;
+    border-spacing: 0 0.5rem;
+
+    thead {
+        tr {
+            th {
+                background-color: $color-table;
+                font-size: 14px;
+                font-weight: 600;
+                color: white;
+                padding: 0.3rem;
+                text-align: center;
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            td {
+                font-size: 14px;
+                text-align: center;
+                padding: 0.5rem;
+                border: none;
+            }
+        }
+    }
+}
+
+.main-tabs {
+    font-size: 18px;
+
+    a {
+        color: $border-gray;
+        text-decoration: none;
+        border-bottom: solid 4px transparent;
+
+        &:hover {
+            color: $gray;
+        }
+
+        &.active {
+            color: $title-dark;
+            border-bottom: solid 3px $tertiary;
+        }
+    }
+}
+
+.icon-circle {
+    display: flex;
+
+    > div {
+        border-radius: 100%;
+        background-color: transparentize($graylight, 0.5);
+        width: 60px;
+        height: 60px;
+        padding: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        > div {
+            background-color: $graylight;
+            border-radius: 100%;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+    }
+
+    &.icon-success {
+        > div {
+            background-color: transparentize($sucess, 0.5);
+
+            > div {
+                background-color: $sucess;
+            }
+        }
+    }
+
+    &.icon-danger {
+        > div {
+            background-color: transparentize($danger, 0.5);
+
+            > div {
+                background-color: $danger;
+            }
+        }
+    }
+}
+
+.detalle-cobro {
+    font-size: 12px;
+}
+
+.form-label {
+    font-weight: 700;
+}
+
+.ts-control {
+    height: 45px;
+    display: flex;
+    align-items: center;
+    padding: 8px 1rem !important;
+
+    input, > .item {
+        font-size: 14px !important;
+    }
+}
+
+.seccion-acciones {
+    > .w-100 {
+        @include media-breakpoint-up(md) {
+            max-width: 50%;
+        }
+
+        @include media-breakpoint-up(lg) {
+            max-width: calc(100%/3);
+        }
+
+        @include media-breakpoint-up(xl) {
+            max-width: 25%;
+        }
+    }
+
+    .btn {
+        font-size: 12px;
+
+        @include media-breakpoint-up(lg) {
+            font-size: 14px;
+        }
+    }
+
+}
+
+.pendiente-box {
+    width: 100px;
+    padding-top: 6px;
+}
+.break-word{
+    word-break: break-all;
+}
+
+a.btn{
+    display: inline-grid;
+    align-items: center;
+}
+
+.validado input:invalid,
+.validado select:invalid,
+.validado textarea:invalid + .tox-tinymce
+{
+
+    border-color: var(--bs-form-invalid-border-color);
+    background-color: #ffe6e6 !important;
+    .tox-editor-container .tox-sidebar-wrap .tox-edit-area .tox-edit-area__iframe{
+        background-color: #ffe6e6;
+    }
+    + .archivos, + .boton-carga, + .ts-wrapper .ts-control , +.input-group-text{
+        border: 1px solid var(--bs-form-invalid-border-color);
+        background-color: #ffe6e6;
+    }
+}
+
+.validado :invalid~.invalid-feedback{
+    display: block;
+    font-weight: 100 !important;
+}
+
+.invalido{
+    border: 1px solid var(--bs-form-invalid-border-color)!important;
+    border-color: var(--bs-form-invalid-border-color)!important;
+    background-color: #ffe6e6 !important;
+}
+.error-modal{
+    border-color: #e63535;
+    background-color: #ffe6e6;
+}
+
+.tox-tinymce {
+    border-radius: var(--bs-border-radius) !important;
+}
+
+.validado {
+    .input-invalido {
+        input, select, textarea {
+            border-color: $e-inadmision;
+            background-color: #ffe6e6 !important;
+        }
+        .tox-tinymce {
+            border-color: $e-inadmision;
+        }
+        .tox-edit-area__iframe {
+            background-color: #ffe6e6 !important;
+        }
+    }
+}
+.lista-archivos:nth-child(odd) {
+  background-color: white;
+}
+
+.form-select-regional{
+    --bs-form-select-bg-img:none!important;
+}
+
+.btn-drop-resolucion.show{
+    color:white;
+    border:#48495f;
+    background-color: #48495f;
+}
+
+.app-name {
+    line-height: 1.2em;
+    letter-spacing: 1px;
+    overflow: hidden;
+    width: 160px;
+    color: $white;
+    font-size: 10px;
+    font-weight: 500;
+    margin-right: 20px;
+}
+
+.nav-pills .nav-link{
+    background-color: #f8fafb;
+}
+.nav-pills .nav-link.active{
+    background-color: $tertiary;
+}
+.nav-link.formulario-seccion{
+    color: $gray;
+}
+
+.editor{
+    height: 40vh;
+}
+.editor-md {
+    height:  27vh !important;
+}
+.editor-sm {
+    height:  18vh !important;
+}
