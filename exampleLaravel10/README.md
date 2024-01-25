@@ -5,9 +5,9 @@
 ## Rutas 
 ## Controladores 
 ## Vistas 
-## Blade template        -> Estamos aqui 
-## Migraciones           -> Por definir 
-## Querry Builder        -> Por definir
+## Blade template         
+## [Migraciones](#migracion_ancla) 
+## [Querry Builder](#Querry_Builder_ancla)
 ## Introducción Eloquent -> Por definir 
 ## Relaciones Eloquent
 ## Formularios 
@@ -87,6 +87,8 @@
 - php artisan make:migration create_casos_table
 - php artisan migrate --path=database/migrations/2023_08_01_151922_add_column_to_denuncias_table.php
 - php artisan make:seeder *Nombre*Seeder
+- php artisan migrate:rollback
+- php artisan migrate:reset
 
 
 # Rutas 
@@ -715,7 +717,356 @@ Además, en las últimas versiones del esqueleto de la aplicación Laravel, se i
 @endwhile
 ```
 
-43. Continue y break
+## 43. Directiva @Continue y @break
+
+> Al usar bucles, también puede omitir la iteración actual o finalizar el bucle usando las directivas @continue y @break:
+```
+
+@foreach ($users as $user)
+    @if ($user->type == 1)
+        @continue
+    @endif
+ 
+    <li>{{ $user->name }}</li>
+ 
+    @if ($user->number == 5)
+        @break
+    @endif
+@endforeach
+
+// También puede incluir la condición de continuación o interrupción dentro de la declaración de la directiva:
+
+@foreach ($users as $user)
+    @continue($user->type == 1)
+ 
+    <li>{{ $user->name }}</li>
+ 
+    @break($user->number == 5)
+@endforeach
+
+```
+
+
+## 44. Directiva Variable @Loop
+
+> Al utilizar un bucle foreach en Laravel, se crea automáticamente una variable de bucle llamada $loop que proporciona información valiosa sobre la iteración actual. 
+
+```
+@foreach ($users as $user)
+   
+	indice        - {{$loop->index}}
+	Interaccion   - {{$loop->interation}}
+	Cuanto falta  - {{$loop->remaining }}
+	Cantidad  - {{$loop->count }}
+	Cuanto falta  - {{$loop->even }} true si es par
+	Cuanto falta  - {{$loop->odd }} true si es impar 
+	Cuanto Profundidad - {{$loop->depth }} devuelve nivel  
+   @if ($loop->first)
+        This is the first iteration.
+    @endif
+ 
+    @if ($loop->last)
+        This is the last iteration.
+    @endif
+ 
+    <p>This is user {{ $user->id }}</p>
+@endforeach
+
+// Si se está en un bucle anidado, se puede acceder a la variable $loop del bucle principal a través de la propiedad "parent". En el siguiente ejemplo, se utiliza un bucle anidado para iterar sobre los posts de cada usuario.
+
+@foreach ($users as $user)
+    @foreach ($user->posts as $post)
+        @if ($loop->parent->first)
+            This is the first iteration of the parent loop.
+        @endif
+    @endforeach
+@endforeach
+
+
+```
+
+## 45. Directiva @Class
+
+> La directiva @class permite compilar condicionalmente una cadena de clase CSS. 
+- Se le puede pasar una matriz de clases donde la clave de la matriz contiene la clase o clases que deseas agregar, mientras que el valor es una expresión booleana. 
+- Si el elemento de la matriz tiene una clave numérica, siempre se incluirá en la lista de clases representadas: 
+
+**Ejemplo**
+```
+
+@php
+    $isActive = false;
+    $hasError = true;
+@endphp
+ 
+<span @class([
+    'p-4',
+    'font-bold' => $isActive,
+    'text-gray-500' => ! $isActive,
+    'bg-red' => $hasError,
+])></span>
+ 
+<span class="p-4 text-gray-500 bg-red"></span>
+
+
+@php
+    $isActive = true;
+@endphp
+ 
+<span @style([
+    'background-color: red',
+    'font-weight: bold' => $isActive,
+])></span>
+ 
+<span style="background-color: red; font-weight: bold;"></span>
+
+// La mas usada 
+//Podemos definir nuestras hoja de estilo previamnete y llamar por cada clase para este ejemplo crearemos el style en la misma pagina
+
+<style>
+	.color-red{
+		color:red;
+	}
+	.color-verde{
+		color:green;
+	}
+
+</style>
+
+
+<ul>
+	@foreach($lista as $fila)
+	<li @class([
+		'color-red'=>$loop->first,  //siempre si es true coloca el estilo para este caso usamos la directiva $loop
+		'color-verde'=>$loop->last,  //siempre si es true coloca el estilo para este caso usamos la directiva $loop
+		])>
+		
+		<h1>{{$fila['name']}}</h1>	
+	</li>
+	@endforeach
+</ul>
+
+
+```
+
+## 46. Atributos adicionales
+
+
+> Puedes utilizar la directiva @checked para indicar si una casilla de verificación HTML está marcada, proporcionando una forma fácil de hacerlo. Esta directiva se repetirá si la condición proporcionada se evalúa como verdadera:
+//Todo esto viene de laravel 9
+```
+<input type="checkbox"
+        name="active"
+        value="active"
+        @checked(old('active', $user->active)) />
+		
+		
+		
+<select name="version">
+    @foreach ($product->versions as $version)
+        <option value="{{ $version }}" @selected(old('version') == $version)>
+            {{ $version }}
+        </option>
+    @endforeach
+</select>
+
+
+<button type="submit" @disabled($errors->isNotEmpty())>Submit</button>
+
+<input type="email"
+        name="email"
+        value="email@laravel.com"
+        @readonly($user->isNotAdmin()) />
+		
+		
+<input type="text"
+        name="title"
+        value="title"
+        @required($user->isAdmin()) />
+		
+```
+
+## 47. Directiva include
+
+
+```
+La directiva @include de Blade en Laravel te permite incluir una vista de Blade dentro de otra vista. 
+Al incluir una vista, todas las variables disponibles en la vista principal estarán disponibles en la vista incluida. 
+Además, puedes pasar datos adicionales que deberían estar disponibles en la vista incluida.
+
+Por ejemplo,  
+- @includeIf('nombreVista', ['color'=>'red'])-> para incluir una vista que no siempre está presente, utiliza la directiva
+- @includeWhen(true, 'nombreVista',['color'=>'red']) y @includeUnless. ->  Si quieres evaluar una expresión booleana y luego incluir una vista basada en el resultado, utiliza las directivas  
+- @includeFirst(['vista1','vista2','vista3'],['color'=>'red']) ->  Por último, si deseas incluir la primera vista que existe de una matriz dada de vistas, utiliza la directiva .
+```
+
+
+## 48. Componentes de clase
+
+> jeje A fuerza y a ensayo aprendimos usar esto hay que memorizar comandos es facil de usar y de crear y mantener 
+
+Paso 1: Crear 
+**Comandos**
+- php artisan make:component nombre 
+- php artisan make:component Alert 
+
+Paso 2: llamar 
+<x-alert>
+	Hola mundo 
+</x-alert>
+
+Paso 3: pasar parametros  
+- Slot principal -> 
+```
+<x-alert>
+	Hola mundo 
+</x-alert>
+
+{{$slot}}
+```
+
+
+
+- Slot Alternos -> 
+
+<x-alert>
+	<x-slot name='title'>
+		Error
+	</x-slot>
+	Hola mundo 
+</x-alert>
+
+
+> En este ejemplo, la variable '$tasks se pasa al componente de clase como un parámetro a través del atributo 
+'tasks. 
+- El componente de clase procesa los datos y muestra la lista de tareas utilizando la vista Blade 'task-list.blade.phptask-list.blade.php.
+
+```
+<x-task-list :tasks="$tasks" />
+
+``` 
+ 
+ 
+**Nota**  
+- usamos slot para variables o texto largos 
+- Si son cortos podemos usar enviar parametrosc por atributos estos se definen en el controlador del componente usando los "type" 
+- Si usamos los dos puntos le decimos a laravel que es un codigo php ":" Ejemplo -> `:tasks="$tasks"` ó podemos usarlo así `tasks={{$tasks}}` 
+- Recuerda cualquier cosa que coloquemos en el componente `<x-alert>` 
+bien sea una class para estilo o algo mas eso lo esta recibiendo la clase y en el contruct de la clase del controlador
+pero podemos usar el comodin {{attributes}} este comodin nos permite <x-alert class="mb-3" info="123123" nombre="leo">
+desde la view del componente sin necesidad de definir en el contucttor dichas variables  
+
+
+## 49. Componentes anónimos
+
+> En este capítulo, aprenderás cómo utilizar los componentes anónimos en Laravel 10. 
+- Los componentes anónimos son una forma de definir componentes Blade en línea, lo que facilita la creación de componentes simples y reutilizables.
+
+
+- Creamos 
+```
+container.blade.php 
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+	{{$slot}}
+</div>
+```
+
+- Implementamos
+```
+<x-container>
+	
+	aqui tu codigo html cualquiera 
+	o incluso mas componentes 
+	
+	<x-alert :class={{$class}}/>
+
+</x-container>
+```
+
+> Nota
+- Para centrar usando tailwindcss -> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+- podemos usar los compoenente anónimos en este caso no es necesario generar el artisan y que este tenga su clase 
+controlador podemos ir a resouser y crearlos como un archivo blade siempre y cuando este en su directorio `components` ejemplo 
+- Tambien podemos usar la directiva `@props` para enviar paramentros sin necesidad de usar la clase controlador ejemplo 
+
+
+- Creamos 
+```
+container.blade.php 
+
+@props(['width'=>'max-w-7xl']) // definir por defecto en caso que no se envie el valor 
+
+<div {{attributes->merge(['class' => "$width mx-auto px-4 sm:px-6 lg:px-8" ]) }}>
+	{{$slot}}
+</div>
+```
+- Implementamos 
+```
+<x-container width='max-w-6xl'>
+	
+	aqui tu codigo html cualquiera 
+	o incluso mas componentes 
+	
+	<x-alert :class={{$class}}/>
+
+</x-container>
+
+```
+
+## 50. Componentes como plantilla
+> Los componentes como plantilla son una forma de crear plantillas de vista reutilizables que pueden ser utilizadas en toda tu aplicación.
+
+**Nota** 
+- Pues de esta clase nos quedamos algo tranquilos ya que explica como crear plantillas esto ya depende de tu modelo de negocio y diseño 
+- para esto pues nos apalancamos con las clases de platzi para mejorar el front
+- El realiza un componente para el layout, luego header, luego footer y así va hasta tener varias plantillas 
+
+**Enlace** 
+- Dejo enlace de la clase para echar un vistazo rapido [Clase 50](https://codersfree.com/courses-status/aprende-laravel-avanzado/componentes-como-plantilla)
+
+
+## 51. Herencia de plantillas Blade
+>  La herencia de plantillas Blade te permite crear plantillas de vista base que pueden ser heredadas y extendidas por otras vistas en tu aplicación.
+
+**Nota** 
+- Pues de esta clase nos quedamos algo tranquilos ya que explica como crear plantillas esto ya depende de tu modelo de negocio y diseño 
+- para esto pues nos apalancamos con las clases de platzi para mejorar el front
+- El realiza un componente para el layout, luego header, luego footer y así va hasta tener varias plantillas 
+- aqui usamos la directica @yield('title') y @yield('content') para plantillas dinamicas 
+- Laravel <7 se usan las plantillas @extends('ruta') y @section('nombreSection') 
+- Laravel >7 se usan componenentes es la forma que trabajan jeattream 
+**Enlace** 
+- Dejo enlace de la clase para echar un vistazo rapido [Clase 50](https://codersfree.com/courses-status/aprende-laravel-avanzado/sistema-de-plantilla)
+
+## 52. Directiva @stack
+
+> Nos permite apilar diferente contenidos 
+- Incluir datos de manera dinamica 
+- 
+```
+-  crear 
+@push('meta')
+	<meta name="description" content="Ejemplo"/>
+@endpush 
+
+@push('meta')
+	<meta name="keywords" content="soy otro Ejemplo"/>
+@endpush 
+```
+
+- Inplementar 
+```
+ @stack('meta')
+
+```
+
+**Nota** 
+- @stack es casi igual que @yield solo que stack podremos usar el push sin necesidad de declarar una section  
+- tambien nos permite apilar pequeños fragmentos diferennte el apila 
+
+
+**Ejemplo** 
+![Pivote](./info/info_008.png)
 
 
 
@@ -725,49 +1076,635 @@ Además, en las últimas versiones del esqueleto de la aplicación Laravel, se i
 
 
 
+## <a name="migracion_ancla">Migraciones</a>
+
+
+## 53. Conexión a base de datos
+
+- Esta ya la conocemos no somos expertos pero sabemos lo básico 
+- Archivos: 
+	- config 
+		- database.php 
+	- .env -> aqui debemos configurar las conexiones a base de datos 
+```
+Para conectar tu aplicación Laravel 10 a una base de datos, primero debes configurar la conexión en el archivo .env de tu aplicación. Abre el archivo .env y busca las variables de entorno que comienzan con "DB_". Asegúrate de que estas variables se ajusten a la configuración de tu base de datos:
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nombre_de_la_base_de_datos
+DB_USERNAME=nombre_de_usuario
+DB_PASSWORD=contraseña
+```
+
+
+## 54. Introducción a migraciones
+
+**Enlaces**
+
+- Comandos y premisas para las migraciones 
+	- https://styde.net/laravel-6-doc-base-de-datos-migraciones/ 
+
+
+Creando columnas
+El método table en la clase facade Schema puede ser usado para actualizar tablas existentes. Igual que el método create acepta dos argumentos: el nombre de la tabla y una Closure que recibe una instancia de la clase Blueprint que puedes usar para agregar columnas a la tabla:
+```
+Schema::table('users', function (Blueprint $table) {
+    $table->string('email');
+});
+```
+**Tipos de columna permitidos**
+El constructor de esquema contiene una variedad de tipos de columna que puedes especificar al momento de construir tus tablas:
+
+Comando	Descripción
+```
+$table->bigIncrements('id');	Tipo de columna equivalente a auto-incremento UNSIGNED BIGINT (clave primaria).
+$table->bigInteger('votes');	Tipo de columna equivalente a BIGINT.
+$table->binary('data');	Tipo de columna equivalente a BLOB.
+$table->boolean('confirmed');	Tipo de columna equivalente a BOOLEAN.
+$table->char('name', 100);	Tipo de columna equivalente a CHAR con una longitud.
+$table->date('created_at');	Tipo de columna equivalente a DATE.
+$table->dateTime('created_at', 0);	Tipo de columna equivalente a DATETIME con precisión (dígitos totales).
+$table->dateTimeTz('created_at', 0);	Tipo de columna equivalente a DATETIME (con zona horaria) con precisión (dígitos totales).
+$table->decimal('amount', 8, 2);	Tipo de columna equivalente a DECIMAL con una precisión (el total de dígitos) y escala de dígitos decimales.
+$table->double('amount', 8, 2);	Tipo de columna equivalente a DOUBLE con una precisión (el total de dígitos) y escala de dígitos decimales.
+$table->enum('level', ['easy', 'hard']);	Tipo de columna equivalente a ENUM.
+$table->float('amount', 8, 2);	Tipo de columna equivalente a FLOAT con una precisión (el total de dígitos) y escala de dígitos decimales.
+$table->geometry('positions');	Tipo de columna equivalente a GEOMETRY.
+$table->geometryCollection('positions');	Tipo de columna equivalente a GEOMETRYCOLLECTION.
+$table->increments('id');	Tipo de columna equivalente a auto-incremento UNSIGNED INTEGER (clave primaria).
+$table->integer('votes');	Tipo de columna equivalente a INTEGER.
+$table->ipAddress('visitor');	Tipo de columna equivalente a dirección IP.
+$table->json('options');	Tipo de columna equivalente a JSON.
+$table->jsonb('options');	Tipo de columna equivalente a JSONB.
+$table->lineString('positions');	Tipo de columna equivalente a LINESTRING.
+$table->longText('description');	Tipo de columna equivalente a LONGTEXT.
+$table->macAddress('device');	Tipo de columna equivalente a dirección MAC.
+$table->mediumIncrements('id');	Tipo de columna equivalente a auto-incremento UNSIGNED MEDIUMINT (clave primaria).
+$table->mediumInteger('votes');	Tipo de columna equivalente a MEDIUMINT.
+$table->mediumText('description');	Tipo de columna equivalente a MEDIUMTEXT.
+$table->morphs('taggable');	Agrega los tipos de columna equivalente a UNSIGNED BIGINT taggable_id y VARCHAR taggable_type.
+$table->uuidMorphs('taggable');	Agrega las columnas UUID equivalentes taggable_id CHAR(36) y taggable_type VARCHAR(255).
+$table->multiLineString('positions');	Tipo de columna equivalente a MULTILINESTRING.
+$table->multiPoint('positions');	Tipo de columna equivalente a MULTIPOINT.
+$table->multiPolygon('positions');	Tipo de columna equivalente a MULTIPOLYGON.
+$table->nullableMorphs('taggable');	Agrega versiones nullable de las columnas morphs().
+$table->nullableUuidMorphs('taggable');	Agrega versiones nullable de las columnas uuidMorphs().
+$table->nullableTimestamps(0);	Alias del método timestamps().
+$table->point('position');	Tipo de columna equivalente a POINT.
+$table->polygon('positions');	Tipo de columna equivalente a POLYGON.
+$table->rememberToken();	Agrega un tipo de columna equivalente a VARCHAR(100) que permita nulos para remember_token.
+$table->set('flavors', ['strawberry', 'vanilla']);	Tipo de columna equivalente a SET.
+$table->smallIncrements('id');	Tipo de columna equivalente a auto-incremento UNSIGNED SMALLINT (clave primaria).
+$table->smallInteger('votes');	Tipo de columna equivalente a SMALLINT.
+$table->softDeletes(0);	Agrega un tipo de columna equivalente a TIMESTAMP que permita nulos para deleted_at en eliminaciones lógicas con precisión (dígitos totales).
+$table->softDeletesTz(0);	Agrega un tipo de columna equivalente a TIMESTAMP que permita nulos para deleted_at (con la zona horaria) en eliminaciones lógicas con precisión (dígitos totales).
+$table->string('name', 100);	Tipo de columna equivalente a VARCHAR con una longitud.
+$table->text('description');	Tipo de columna equivalente a TEXT.
+$table->time('sunrise', 0);	Tipo de columna equivalente a TIME con precisión (dígitos totales).
+$table->timeTz('sunrise', 0);	Tipo de columna equivalente a TIME (con la zona horaria) con precisión (dígitos totales).
+$table->timestamp('added_on', 0);	Tipo de columna equivalente a TIMESTAMP con precisión (dígitos totales).
+$table->timestampTz('added_on', 0);	Tipo de columna equivalente a TIMESTAMP (con la zona horaria) con precisión (dígitos totales).
+$table->timestamps(0);	Agrega los tipos de columnas equivalentes a TIMESTAMP que permitan nulos para created_at y updated_at con precisión (dígitos totales).
+$table->timestampsTz(0);	Agrega los tipos de columnas equivalentes a TIMESTAMP (con la zona horaria) que permitan nulos para created_at y updated_at con precisión (dígitos totales).
+$table->tinyIncrements('id');	Tipo de columna equivalente a auto-incremento UNSIGNED TINYINT (clave primaria).
+$table->tinyInteger('votes');	Tipo de columna equivalente a TINYINT.
+$table->unsignedBigInteger('votes');	Tipo de columna equivalente a UNSIGNED BIGINT.
+$table->unsignedDecimal('amount', 8, 2);	Tipo de columna equivalente a UNSIGNED DECIMAL con una precisión (total de dígitos) escala (dígitos decimales).
+$table->unsignedInteger('votes');	Tipo de columna equivalente a UNSIGNED INTEGER.
+$table->unsignedMediumInteger('votes');	Tipo de columna equivalente a UNSIGNED MEDIUMINT.
+$table->unsignedSmallInteger('votes');	Tipo de columna equivalente a UNSIGNED SMALLINT.
+$table->unsignedTinyInteger('votes');	Tipo de columna equivalente a UNSIGNED TINYINT.
+$table->uuid('id');	Tipo de columna equivalente a UUID.
+$table->year('birth_year');	Tipo de columna equivalente a YEAR.
+```
+
+**Modificadores de columna**
+Además de los tipos de columna listados anteriormente, hay varios «modificadores» de columna que puedes usar al momento de agregar una columna a la tabla de base de datos. Por ejemplo, para hacer que la columna «acepte valores nulos», puedes usar el método nullable.
+```
+Schema::table('users', function (Blueprint $table) {
+    $table->string('email')->nullable();
+});
+```
+La siguiente lista contiene todos los modificadores de columna disponibles. Esta lista no incluye los modificadores de índice:
+
+Modificador	Descripción
+```
+->after('column')	Coloca la columna «después de» otra columna (MySQL)
+->autoIncrement()	Establece las columnas tipo INTEGER como auto-incremento (clave primaria)
+->charset('utf8')	Especifica un conjunto de caracteres para la columna (MySQL)
+->collation('utf8_unicode_ci')	Especifica un ordenamiento para la columna (MySQL/PostgreSQL/SQL Server)
+->comment('my comment')	Agrega un comentario a una columna (MySQL/PostgreSQL)
+->default($value)	Especifica un valor «predeterminado» para la columna
+->first()	Coloca la columna al «principio» en la tabla (MySQL)
+->nullable($value = true)	Permite que valores NULL (por defecto) sean insertados dentro de la columna
+->storedAs($expression)	Crea una columna generada almacenada (MySQL)
+->unsigned()	Establece las columnas tipo INTEGER como UNSIGNED (MySQL)
+->useCurrent()	Establece las columnas tipo TIMESTAMP para usar CURRENT_TIMESTAMP como valor predeterminado
+->virtualAs($expression)	Crea una columna generada virtual (MySQL)
+->generatedAs($expression)	Crea una columna de identidad con opciones de secuencia especificadas (PostgreSQL)
+->always()	Define la precedencia de los valores de secuencia sobre la entrada para una columna de identidad (PostgreSQL)
+```
+
+## 55. Crear tablas con migraciones
+
+> Las migraciones son una herramienta de Laravel que te permiten crear, modificar y eliminar tablas en tu base de datos de forma programática y versionada. Esto significa que puedes definir los cambios en la estructura de la base de datos en código y controlar su evolución a través del control de versiones de tu aplicación.
+
+- Para crear una migración en Laravel, puedes usar el comando 'make:migrationdatabase/migrations. 
+- Por ejemplo, para crear una migración llamada 'create_users_tablecreate_users_table, puedes ejecutar el siguiente comando en tu terminal:
+- php artisan make:migration create_users_table
+- este comando generará un archivo de migración con un nombre similar a '2023_03_21_000000_create_users_table.php
+- Una vez que hayas generado la migración, puedes abrir el archivo en tu editor de código y definir la estructura de la tabla que deseas crear. Por ejemplo, para crear una tabla de usuarios con campos de nombre, correo electrónico y contraseña, puedes usar el siguiente código:
+
+```
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+class CreateUsersTable extends Migration
+{
+   public function up()
+   {
+       Schema::create('users', function (Blueprint $table) {
+           $table->id();
+           $table->string('name');
+           $table->string('email')->unique();
+           $table->string('password');
+           $table->timestamps();
+       });
+   }
+   public function down()
+   {
+       Schema::dropIfExists('users');
+   }
+}
+```
+
+## 56. Revertir cambios 
+
+
+> Usando migrate podemos generar puntos de roolback para realizar esta  reversión podemos ejecutar el comando
+- `php artisan migrate:rollback`
+
+
+## 57. Actualizar tabla con migraciones
+
+
+> Para revertir una migración específica, puedes utilizar el comando "rollback" de Artisan. 
+- Por ejemplo, si tienes una migración llamada "create_users_table" y deseas revertirla, puedes ejecutar el siguiente comando en la terminal:
+- php artisan migrate:rollback --step=1
+- El parámetro "--step=1" indica que solo se debe revertir la última migración. 
+- Si deseas revertir varias migraciones, puedes aumentar el valor de "--step" según el número de migraciones que deseas revertir.
+- También puedes utilizar el comando "rollback" sin el parámetro "--step" para revertir todas las migraciones que se hayan aplicado. 
+- Por ejemplo: php artisan migrate:rollback
+- Si deseas eliminar completamente todas las tablas de la base de datos y revertir todas las migraciones, puedes utilizar el comando "reset". 
+- Este comando elimina todas las tablas de la base de datos y luego ejecuta todas las migraciones de nuevo. 
+- Para utilizar el comando "reset", puedes ejecutar el siguiente comando en la terminal:
+- php artisan migrate:reset
+- Ten en cuenta que el comando "reset" eliminará todos los datos de la base de datos, por lo que debes tener cuidado al utilizarlo en entornos de producción.
+
+
+**Nota**
+- PostgreSQL por el momento (v14.9) no soporta la alteración de posición de columnas.
+- ¿Qué quiere decir ésto? Pues que no será posible hacer uso de la función after() mostrada en la unidad.
 
 
 
+## 58. Eliminar tablas
+
+Se trata de renombrar nuestra tabla posts por el nombre articles, siguiendo estos pasos:
+
+Creamos una nueva migración con artisan make:migration rename_posts_table
+2. En el cuerpo de la función up() incluímos:
+
+Schema::rename('posts', 'articles');
+3. En el cuerpo de la función down() incluímos:
+
+Schema::rename('articles', 'posts');
+Schema::dropIfExists('articles', 'posts');
+Son la misma función, pero invirtiendo los nombres.
+
+
+## 59. Tipos de datos
+
+**Tipos de columna permitidos**
+El constructor de esquema contiene una variedad de tipos de columna que puedes especificar al momento de construir tus tablas:
+
+Comando	Descripción
+```
+$table->bigIncrements('id');	Tipo de columna equivalente a auto-incremento UNSIGNED BIGINT (clave primaria).
+$table->bigInteger('votes');	Tipo de columna equivalente a BIGINT.
+$table->binary('data');	Tipo de columna equivalente a BLOB.
+$table->boolean('confirmed');	Tipo de columna equivalente a BOOLEAN.
+$table->char('name', 100);	Tipo de columna equivalente a CHAR con una longitud.
+$table->date('created_at');	Tipo de columna equivalente a DATE.
+$table->dateTime('created_at', 0);	Tipo de columna equivalente a DATETIME con precisión (dígitos totales).
+$table->dateTimeTz('created_at', 0);	Tipo de columna equivalente a DATETIME (con zona horaria) con precisión (dígitos totales).
+$table->decimal('amount', 8, 2);	Tipo de columna equivalente a DECIMAL con una precisión (el total de dígitos) y escala de dígitos decimales.
+$table->double('amount', 8, 2);	Tipo de columna equivalente a DOUBLE con una precisión (el total de dígitos) y escala de dígitos decimales.
+$table->enum('level', ['easy', 'hard']);	Tipo de columna equivalente a ENUM.
+$table->float('amount', 8, 2);	Tipo de columna equivalente a FLOAT con una precisión (el total de dígitos) y escala de dígitos decimales.
+$table->geometry('positions');	Tipo de columna equivalente a GEOMETRY.
+$table->geometryCollection('positions');	Tipo de columna equivalente a GEOMETRYCOLLECTION.
+$table->increments('id');	Tipo de columna equivalente a auto-incremento UNSIGNED INTEGER (clave primaria).
+$table->integer('votes');	Tipo de columna equivalente a INTEGER.
+$table->ipAddress('visitor');	Tipo de columna equivalente a dirección IP.
+$table->json('options');	Tipo de columna equivalente a JSON.
+$table->jsonb('options');	Tipo de columna equivalente a JSONB.
+$table->lineString('positions');	Tipo de columna equivalente a LINESTRING.
+$table->longText('description');	Tipo de columna equivalente a LONGTEXT.
+$table->macAddress('device');	Tipo de columna equivalente a dirección MAC.
+$table->mediumIncrements('id');	Tipo de columna equivalente a auto-incremento UNSIGNED MEDIUMINT (clave primaria).
+$table->mediumInteger('votes');	Tipo de columna equivalente a MEDIUMINT.
+$table->mediumText('description');	Tipo de columna equivalente a MEDIUMTEXT.
+$table->morphs('taggable');	Agrega los tipos de columna equivalente a UNSIGNED BIGINT taggable_id y VARCHAR taggable_type.
+$table->uuidMorphs('taggable');	Agrega las columnas UUID equivalentes taggable_id CHAR(36) y taggable_type VARCHAR(255).
+$table->multiLineString('positions');	Tipo de columna equivalente a MULTILINESTRING.
+$table->multiPoint('positions');	Tipo de columna equivalente a MULTIPOINT.
+$table->multiPolygon('positions');	Tipo de columna equivalente a MULTIPOLYGON.
+$table->nullableMorphs('taggable');	Agrega versiones nullable de las columnas morphs().
+$table->nullableUuidMorphs('taggable');	Agrega versiones nullable de las columnas uuidMorphs().
+$table->nullableTimestamps(0);	Alias del método timestamps().
+$table->point('position');	Tipo de columna equivalente a POINT.
+$table->polygon('positions');	Tipo de columna equivalente a POLYGON.
+$table->rememberToken();	Agrega un tipo de columna equivalente a VARCHAR(100) que permita nulos para remember_token.
+$table->set('flavors', ['strawberry', 'vanilla']);	Tipo de columna equivalente a SET.
+$table->smallIncrements('id');	Tipo de columna equivalente a auto-incremento UNSIGNED SMALLINT (clave primaria).
+$table->smallInteger('votes');	Tipo de columna equivalente a SMALLINT.
+$table->softDeletes(0);	Agrega un tipo de columna equivalente a TIMESTAMP que permita nulos para deleted_at en eliminaciones lógicas con precisión (dígitos totales).
+$table->softDeletesTz(0);	Agrega un tipo de columna equivalente a TIMESTAMP que permita nulos para deleted_at (con la zona horaria) en eliminaciones lógicas con precisión (dígitos totales).
+$table->string('name', 100);	Tipo de columna equivalente a VARCHAR con una longitud.
+$table->text('description');	Tipo de columna equivalente a TEXT.
+$table->time('sunrise', 0);	Tipo de columna equivalente a TIME con precisión (dígitos totales).
+$table->timeTz('sunrise', 0);	Tipo de columna equivalente a TIME (con la zona horaria) con precisión (dígitos totales).
+$table->timestamp('added_on', 0);	Tipo de columna equivalente a TIMESTAMP con precisión (dígitos totales).
+$table->timestampTz('added_on', 0);	Tipo de columna equivalente a TIMESTAMP (con la zona horaria) con precisión (dígitos totales).
+$table->timestamps(0);	Agrega los tipos de columnas equivalentes a TIMESTAMP que permitan nulos para created_at y updated_at con precisión (dígitos totales).
+$table->timestampsTz(0);	Agrega los tipos de columnas equivalentes a TIMESTAMP (con la zona horaria) que permitan nulos para created_at y updated_at con precisión (dígitos totales).
+$table->tinyIncrements('id');	Tipo de columna equivalente a auto-incremento UNSIGNED TINYINT (clave primaria).
+$table->tinyInteger('votes');	Tipo de columna equivalente a TINYINT.
+$table->unsignedBigInteger('votes');	Tipo de columna equivalente a UNSIGNED BIGINT.
+$table->unsignedDecimal('amount', 8, 2);	Tipo de columna equivalente a UNSIGNED DECIMAL con una precisión (total de dígitos) escala (dígitos decimales).
+$table->unsignedInteger('votes');	Tipo de columna equivalente a UNSIGNED INTEGER.
+$table->unsignedMediumInteger('votes');	Tipo de columna equivalente a UNSIGNED MEDIUMINT.
+$table->unsignedSmallInteger('votes');	Tipo de columna equivalente a UNSIGNED SMALLINT.
+$table->unsignedTinyInteger('votes');	Tipo de columna equivalente a UNSIGNED TINYINT.
+$table->uuid('id');	Tipo de columna equivalente a UUID.
+$table->year('birth_year');	Tipo de columna equivalente a YEAR.
+```
+
+
+## 60 - 61 - 62 - 63. Modificadores de columna --  Modificar columnas -- Renombrar columnas -- Eliminar columnas
+
+
+**Modificadores de columna**
+Además de los tipos de columna listados anteriormente, hay varios «modificadores» de columna que puedes usar al momento de agregar una columna a la tabla de base de datos. Por ejemplo, para hacer que la columna «acepte valores nulos», puedes usar el método nullable.
+```
+Schema::table('users', function (Blueprint $table) {
+    $table->string('email')->nullable();
+});
+```
+La siguiente lista contiene todos los modificadores de columna disponibles. Esta lista no incluye los modificadores de índice:
+
+Modificador	Descripción
+```
+->after('column')	Coloca la columna «después de» otra columna (MySQL)
+->autoIncrement()	Establece las columnas tipo INTEGER como auto-incremento (clave primaria)
+->charset('utf8')	Especifica un conjunto de caracteres para la columna (MySQL)
+->collation('utf8_unicode_ci')	Especifica un ordenamiento para la columna (MySQL/PostgreSQL/SQL Server)
+->comment('my comment')	Agrega un comentario a una columna (MySQL/PostgreSQL)
+->default($value)	Especifica un valor «predeterminado» para la columna
+->first()	Coloca la columna al «principio» en la tabla (MySQL)
+->nullable($value = true)	Permite que valores NULL (por defecto) sean insertados dentro de la columna
+->storedAs($expression)	Crea una columna generada almacenada (MySQL)
+->unsigned()	Establece las columnas tipo INTEGER como UNSIGNED (MySQL)
+->useCurrent()	Establece las columnas tipo TIMESTAMP para usar CURRENT_TIMESTAMP como valor predeterminado
+->virtualAs($expression)	Crea una columna generada virtual (MySQL)
+->generatedAs($expression)	Crea una columna de identidad con opciones de secuencia especificadas (PostgreSQL)
+->always()	Define la precedencia de los valores de secuencia sobre la entrada para una columna de identidad (PostgreSQL)
+```
+
+**Metodo Change PErmite cambiar el tipo de variable** 
+```
+Schema::table('users', function (Blueprint $table) {
+    $table->mediumText('email')->change();
+});
+```
+
+**Cambiar Nombre Columna** 
+
+```
+Schema::table('users', function (Blueprint $table) {
+    $table->renameColumn('email', 'correo');
+});
+```
+**Nota**
+- para usar el rename debemos instalar un paquete ->   'composer require doctrine/dbal'
+
+
+**Eliminar Columna** 
+
+```
+Schema::table('users', function (Blueprint $table) {
+    $table->dropColumn('email');
+});
+```
+
+**Nota**
+- Elimina los datos si ejecutamos ese metodo no se recupera con el roolback
+
+## 64 -- 65 -- 66 -- 67. Índices -- Eliminar indices -- Llaves foráneas -- Eliminar Llaves foráneas
 
 
 
+**Notas** 
+- ->autoIncrement() si inplementamos esto no se nececesita el primary() 
+
+**Ejemplo** 
+
+```
+Schema::table('users', function (Blueprint $table) {
+    $table->bigInteger('id')->autoIncrement()->unsigned()->unique();
+    $table->increments('id'); // le aplica todo 
+    $table->bigIncrements('id'); // le aplica todo 
+	
+	//indice 
+	// $table->primary('id');
+	// $table->index('email');
+	// $table->fullText('email');
+});
+```
+
+**Eliminar Indices **
+
+ 
+```
+Schema::table('users', function (Blueprint $table) {
+    $table->dropUnique('nombre_de_la_llave'); //Debes consultar tu tabla ya que que cuando se genera un indice este lo coloca un nombre 
+    $table->dropIndex('nombre_de_la_llave'); //Debes consultar tu tabla ya que que cuando se genera un indice este lo coloca un nombre 
+    $table->dropFullText('nombre_de_la_llave'); //Debes consultar tu tabla ya que que cuando se genera un indice este lo coloca un nombre 
+    $table->dropPrimary('nombre_de_la_llave'); //Debes consultar tu tabla ya que que cuando se genera un indice este lo coloca un nombre 
+});
+```
+
+**llaves  Foraneas **
+
+```
+Schema::table('users', function (Blueprint $table) {
+    
+	//Forma 1
+	$table->usignedBigInteger('codigo_id'); 
+	//Forma 2
+	$table->foreignId('codigo_id')->constrained()->cascadeOnDelete(); 
+	$table->foreignId('codigo_id')->constrained()->onDelete('cascade'); // Lo elimina   
+	$table->foreignId('codigo_id')->nullable()->constrained()->onDelete('set null'); // no lo elimina lo setea null  
+	$table->foreignId('codigo_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade'); 
+	
+	
+	//Foraneos 
+	$table->foreign('codigo_id')->references('id')->on('nombre_tabla_referencia');
+});
+```
+
+**Eliminar llaves  Foraneas **
+
+```
+Schema::table('users', function (Blueprint $table) {
+	$table->dropForeign('nombre_relacion_table'); //no elimina la columna solo elimina la relacion o restricción 
+	$table->dropForeign(['codigo_id']); //no elimina la columna solo elimina la relacion o restricción 
+});
+```
+
+# <a name="Querry_Builder_ancla">Querry Builder </a>
+
+## 68 Ejecución de consultas de base de datos
 
 
 
+**Nota** 
+- Podemos interacruar con la base de datos de dos maneras usando `Generador de consulta` y `ORM`
+- Para usar el generador de consulta de Laravel  inovcar el facades -> `use Iluminate\Support\Facades\DB`
+
+**Generarodr de consulta** 
+
+```
+ $categoria = DB::table('nombre_table')->get();
+ $categoria = DB::table('nombre_table')->find(4);
+ $categoria = DB::table('nombre_table')->pluck('nombre_colunm', 'nombre_colunm', 'id' );
+```
+
+**ORM**
 
 
 
+## 69. Resultados de fragmentación
+
+> usamos esto para tener mas suavidad con la memoria se sature al momento de realizar una consulta. 
+
+- Para esto usamos chunk para trabajar con grandes cantidades de datos
+**Ejemplo**
+
+```
+$users = DB::table('users')
+			->orderby('id', 'desc')
+			//Agrupa en 100 => $users 
+			->chunk(100, function($users)){
+			
+				//Aqui alguna operación extra 
+			});
+```
+
+```
+$users = DB::table('users')
+			->orderby('id', 'desc')
+			->chunkById(100, function($users)){
+				//Aqui alguna operación extra
+				foreach($users as $user){
+					$user->name = 'nuevo nombre';
+				
+				}
+				 
+			});
+
+
+<?php
+
+$posts = Post::with('user', 'category', 'tags', 'latestComment.user')
+  ->latest()
+  ->toSql();
+
+dd($posts);
+// select * from `posts` order by `created_at` desc
+
+```
 
 
 
+**Notas** 
+- el valor 100 le estamos indicando que traiga en 100 en 100
+- para usar el metodo chunck debes usar la clausula orderby de manera obligatoria 
+- chunkById permite traerlo de manera graneada los datos a diferencia del otro este te permite actualizar los datos 
+- Se recupera en un array definido por nosostros en este caso users
+- Poddemos ver la consulta usando los metodos toSql()
+
+## 70. Transmisión de resultados perezosamente
+
+> Usamos el metodo lazy retorna una collection 
+- 
+
+
+**Ejemplo**
 
 
 
+```
+$users = DB::table('users')
+			->orderby('id', 'desc')
+			->lazy()->each(function($user){
+				//Aqui alguna operación extra
+				echo  $user->name . '<br>';
+			});
+```
+
+
+**Notas** 
+- nos permite manipular en forma de collection 
+- no se define el total el tiene su propia configuración
+- esto es para data muy extensa es un proceso que se deja correr y cuando termine nos avisa 
+- tambien tiene lazyById 
+
+
+## 71. Agregados
+
+> son los metodos de agregacción que usamos en sql laravel tiene su forma de llamarlos y mostrarlos 
+```
+$users = DB::table('users')->count();
+$users = DB::table('users')->max('id');
+$users = DB::table('users')->min('id');
+$users = DB::table('users')->avg('id');
+$users = DB::table('users')->where('id', 5)->exists(); // true si existe
+$users = DB::table('users')->where('id', 5)->doesntexists();//true no existe 
+```
 
 
 
+## 72. Cláusula de selección
+
+> traer campos 
+
+```
+$users = DB::table('users')->select('id', 'name as nombre', 'email')->get();
+```
+
+## 73. Expresiones sin procesar
 
 
+```
+$users = DB::table('users')
+	->select('id', 'name as nombre', 'email', DB::raw('CONCAT(name, " ", email) as full_name'))
+	->get();
+```
+
+```
+$users = DB::table('users')
+	->select('id', 'name as nombre', 'email')
+	->selectRaw('CONCAT(name, " ", email) as full_name')
+	->whereRaw('id >= 2 AND id <=7')
+	->havingRaw('')
+	->get();
+```
 
 
+## 74. Clausula Inner Join
+
+> para poder usarl el inner join on de sql 
+```
+$users = DB::table('users')
+	->join('posts', 'posts.users_id', '=' 'users.id' )
+	->get();
+```
+
+**Notas** 
+- Podemos usar tantos join como queramos  
 
 
+## 75. Clausula Where
 
 
+```
+$users = DB::table('users')
+	->where('id' '<', 5)
+	->where('id' '<=', 5)
+	->where('id' '>=', 5)
+	->where('id' '<>', 5)
+	->where('name' 'like', '%leo%')
+	->where([
+			['id' '>=', '5'],
+			['id' '<=', '10']			
+			])
+	->get();
+```
+
+## 76. Clausula OrWhere
+
+```
+$users = DB::table('users')
+	->where('id' '<', 5)
+	->orWhere('id' '<', 5)
+	->get();
+```
+
+##77. Claurala WhereNot
+
+```
+$users = DB::table('users')
+	->where('id' '>', 5)
+	->whereNot('id' '=', 5)
+	->get();
+```
+
+## 78. Cláusulas Where adicionales
 
 
+```
+$users = DB::table('users')
+	->whereBetween('id' [5,15])
+	->whereNotBetween('id' [5,15])
+	->whereIn('id' [5,10,15])
+	->whereNotIn('id' [5,10,15])
+	->whereNull('id')
+	->whereNotNull('id')
+	->whereDate('created_at', '>=' ,campo_fecha)
+	->whereMonth('created_at',  4) //busca por el numero del mes 
+	->whereDay('created_at',  4) //busca por día
+	->whereYear('created_at',  2023) //busca por el año 
+	->whereTime('created_at',  '21:04:40') //busca por el tiempo 
+	->whereTime('created_at', '>' '21:04:40') //busca por el tiempo 
+	->whereColumn('created_at', '') //busca por el tiempo 
+	->get();
+```
 
 
+## 79. Agrupación lógica
+
+```
+$users = DB::table('users')
+	->where('id' '>', 5)
+	->Where(function($query){//función anonima 
+		$query->whereIn('id' [5,10,15]);
+	
+	})->get();
+```
+
+## 80. Ordenar registros
 
 
-
-
-
-
-
-
-
-
+```
+$users = DB::table('users')
+	->orderBy('id')
+	->orderBy('id', 'desc')
+	->orderBy('id', 'desc')
+	->get();
+```
 
 
 
@@ -1204,7 +2141,7 @@ $user->tags()->attach(1); //Para Crear : No usamos create usamos attach();
 $user->tags()->attach([1,2,3]); //Para Crear varios  podemos usar los corchetes de arreglos
 $user->tags()->sync([1,2,3]); //Para actualizar este metodo valida si 1 o 2 esta creado y solo genera el que no este en la table previamente para este ejemplo crea el 3 ojo tambien elimina si ya que funciona como un Update
 $user->tags()->detach(1); //Para eliminar: No usamos delete usamos detach();
-
+```
 
 
 
@@ -1255,6 +2192,8 @@ y relacionar modelos de manera rápida y sencilla.
 - Al utilizarlos, puedes agilizar el proceso de desarrollo y pruebas de tu aplicación de manera significativa.
 
 ![Tablas](./info/info_006.png)
+
+
 
 
 
