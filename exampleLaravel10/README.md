@@ -20,6 +20,8 @@
 |Validaciones  |
 
 
+--- 
+
 ## Lista de Comandos Utiles 
 
 **Pasos para instalacción**
