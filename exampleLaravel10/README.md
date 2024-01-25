@@ -1,23 +1,26 @@
 # Como parte de Mejoras y actualizaciones de PHP  iniciamos Laravel 10 
 
-# Indice 
+
+|Menu | 
+|----------|
+|Lista de Comandos Utiles |
+| -- Comandos Artisan |
+|Rutas  |
+|Controladores  |
+|Vistas  |
+|Blade template  |
+|Migraciones  |
+|Querry Builder  |
+|Introducción Eloquent  |
+|Introducción Eloquent  |
+|Relaciones Eloquent  |
+|Formularios  |
+|Kit de inicio  |
+|Solicitudes HTTP  |
+|Validaciones  |
+
+
 ## Lista de Comandos Utiles 
-## Rutas 
-## Controladores 
-## Vistas 
-## Blade template         
-## [Migraciones](#migracion_ancla) 
-## [Querry Builder](#Querry_Builder_ancla)
-## Introducción Eloquent -> Por definir 
-## Relaciones Eloquent
-## Formularios 
-## Kit de inicio  
-## Solicitudes HTTP
-## Validaciones 
-
-
-
-# Lista de Comandos Utiles 
 
 **Pasos para instalacción**
 **Comando para Instalar Laravel 10**
@@ -50,8 +53,7 @@
 - whoami /all /fo list 
 
 
-
-## Comandos Artisan - 
+## Comandos Artisan 
 
 **Tips Listas Route**
 - php artisan r:l -> Lista las router de manera mas corta 
@@ -91,7 +93,7 @@
 - php artisan migrate:reset
 
 
-# Rutas 
+## Rutas 
 **Concepto**
 - Recuerda que laravel maneja las  rutas de manera eficiente en diferentes rutas y estas se ecnuentra en el directorio 
 - web.php -> controlas las rutas de tus paginas web
