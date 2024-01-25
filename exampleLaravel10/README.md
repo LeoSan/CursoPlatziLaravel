@@ -1,5 +1,13 @@
 # Como parte de Mejoras y actualizaciones de PHP  iniciamos Laravel 10 
 
+
+<ul>
+  <li>
+    <a href="#inicio">Inicio</a>
+  </li>
+</ul>
+
+
 # Indice 
 ## Lista de Comandos Utiles 
 ## Rutas 
@@ -17,8 +25,10 @@
 
 
 
-# Lista de Comandos Utiles 
 
+
+
+# [Lista de Comandos Utiles](#inicio)
 **Pasos para instalacción**
 **Comando para Instalar Laravel 10**
 - instalar laravel -> `composer global require laravel/installer`
