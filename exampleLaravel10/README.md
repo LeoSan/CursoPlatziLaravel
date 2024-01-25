@@ -12,7 +12,6 @@
 |Migraciones  |
 |Querry Builder  |
 |Introducción Eloquent  |
-|Introducción Eloquent  |
 |Relaciones Eloquent  |
 |Formularios  |
 |Kit de inicio  |
@@ -1080,7 +1079,7 @@ container.blade.php
 
 
 
-## <a name="migracion_ancla">Migraciones</a>
+## Migraciones
 
 
 ## 53. Conexión a base de datos
@@ -1478,7 +1477,9 @@ Schema::table('users', function (Blueprint $table) {
 });
 ```
 
-# <a name="Querry_Builder_ancla">Querry Builder </a>
+--- 
+
+# Querry Builder
 
 ## 68 Ejecución de consultas de base de datos
 
@@ -1693,7 +1694,7 @@ $users = DB::table('users')
 ```
 $users = DB::table('users')
 	->where('id' '>', 5)
-	->Where(function($query){//función anonima 
+	->where(function($query){//función anonima 
 		$query->whereIn('id' [5,10,15]);
 	
 	})->get();
@@ -1712,6 +1713,239 @@ $users = DB::table('users')
 
 
 
+## 81. Agrupar registros
+
+```
+Ejemplo A 
+return DB::table('posts')
+	->select('user_id', DB::raw('count(*) as total'))
+	->groupBy('user_id')
+	->having('total', '>', 2)
+	->get();
+```
+
+**Nota**
+- Recuerda que los metodos de agregación son campos virtuales por lo que la manera de consultarlos es con having
+
+## 82. Límite y compensación de registros
+
+```
+Ejemplo A 
+return DB::table('user')
+	->skip(3)
+	->take(10)
+	->get();
+	
+Ejemplo A 
+return DB::table('user')
+	->offset(3)
+	->limit(10)
+	->get();	
+```
+
+**Nota**
+- el Skip se usa con el take
+
+
+## 83. Clausulas condicionales
+
+```
+Ejemplo A 
+
+$prueba = false; 
+
+return DB::table('user')
+	->when($prueba, function($query, $prueba){
+		$query->where('id', ">=", $prueba)
+	})
+	->get();
+	
+```
+**Nota**
+- el when solo evalua valores booleanos $prueba "askd" === true 
+
+## 84. Insertar registros
+
+**Nota**
+- Enlace  ejemplo -> https://codersfree.com/courses-status/aprende-laravel-avanzado/insertar-declaraciones
+
+
+```
+//Ejemplo A 
+//Insert normal pero este no te maneja en caso de un error hay que tener mucho cuidado que se inserta 
+
+
+return DB::table('user')->insert([
+	
+	['nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+	],
+	['nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+	]	
+]);
+
+//Ejemplo B
+//Este ignora en caso de un error para evitar que explote en la cara 
+
+
+return DB::table('user')->insertOrIgnore([
+	
+	['nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+	],
+	['nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+	]	
+]);
+
+//Ejemplo C
+// se usa cuando se insertan nuevos registros y en caso que dicho registro exista en la tabla este se actualiza 
+
+
+return DB::table('user')->upsert([
+	
+	['nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+	],
+	[
+		'email'=>'valor', // este arreglo indicamos el campo unico para ser identificado 
+		'id'=>'valor',
+
+	],
+	['nomCampo'=>'valor', // Aqui los campos que queremos actualizar
+	'nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+	]	
+]);
+	
+```
+
+##  85. Actualizar registros
+
+
+**Nota**
+- Enlace  ejemplo -> https://codersfree.com/courses-status/aprende-laravel-avanzado/actualizar-registros
+- Recuerda debemos obtener o buscar a la base de datos el registro que deseamos actualizar 
+
+```
+//Ejemplo A 
+//Update 
+
+
+return DB::table('user')
+	->where('id', '=', 1)
+	->update([
+	'nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+	'nomCampo'=>'valor',
+		
+]);
+
+//Ejemplo B 
+//updateOrInsert en caso de que no consiga el valor del primer arreglo combina ambos y lo inserta ten cuidado con el campo obligatorios, ya que estos campos se deben anexar al insertar 
+
+
+return DB::table('user')
+	->updateOrInsert(
+	[
+		'email'=>'valor',//Este arreglo recibe el identificador del registro
+	], 
+	[
+		'nomCampo'=>'valor',
+		'nomCampo'=>'valor',
+		'nomCampo'=>'valor',
+	]
+);
+
+	
+```
+
+## 86. Incrementar y Decrementar
+```
+//Ejemplo A 
+//Update 
+
+
+return DB::table('user')
+	->where('id', '=', 1)
+	->increment('campo', valor);
+
+
+
+return DB::table('user')
+	->where('id', '=', 1)
+	->decrement('campo', valor
+	
+```
+
+## 87. Eliminar registros
+```
+//Ejemplo A 
+//Delete 
+
+
+return DB::table('user')
+	->where('id', 1)
+	->delete();
+	
+```
+
+
+## 88. Paginación
+**Nota**
+- Enlace -> https://codersfree.com/courses-status/aprende-laravel-avanzado/paginacion
+- Minuto 10:00 explica como usar paginate en el provider -> use Illuminate\Pagination\Paginator -> Con esto nos ayuda configurar el tipo de bootstrap
+- **Comandos Blade Paginacion**
+- php artisan vendor:publish --tag=laravel-pagination
+```
+//Ejemplo A 
+//paginate 
+
+
+return DB::table('user')
+	->paginate(
+	,15//Total de registros que se verá por cada pagina 
+	,['campo', 'campo']//podemos especificar los campos que deseamos que se muestren en el paginador
+	,'nombreVariables' // Este valor se verá desde la url es para tener un mayor control del paginate 
+	);
+	
+//Ejemplo B
+//simplePaginate 
+
+
+return DB::table('user')
+	->simplePaginate(
+	,15//Total de registros que se verá por cada pagina 
+	);  
+	
+	
+```
+
+
+# Introducción a Eloquent
+## 89. Eloquent: ¿Qué es y cómo funciona?
+
+- Eloquent es el ORM (Mapeo de Objetos Relacionales) de Laravel que te permite interactuar con bases de datos de manera eficiente y sencilla utilizando modelos de objetos. En este capítulo del curso de Laravel 10, aprenderás acerca de Eloquent y cómo funciona.
+- Eloquent utiliza convenciones para mapear modelos de objetos a tablas de bases de datos y columnas de manera automática. Por ejemplo, si creas un modelo de objeto llamado "User", Eloquent automáticamente buscará una tabla de bases de datos llamada "users" y una columna llamada "id" para representar la clave principal del modelo.
+- Además de las convenciones automáticas, Eloquent también te permite personalizar el mapeo de modelos de objetos a tablas y columnas de bases de datos utilizando configuraciones adicionales en los modelos. Esto te permite trabajar con bases de datos complejas de manera eficiente y sencilla.
+- Otra característica útil de Eloquent es la capacidad de definir relaciones entre modelos. Puedes definir relaciones uno a uno, uno a muchos y muchos a muchos utilizando métodos en los modelos de objetos. Estas relaciones te permiten acceder a datos relacionados de manera fácil y eficiente.
+- Por último, Eloquent también te proporciona una serie de métodos para realizar operaciones de bases de datos comunes, como insertar, actualizar y eliminar registros. Estos métodos son intuitivos y fáciles de utilizar, lo que te permite trabajar con bases de datos de manera sencilla y eficiente.
+
+
+https://codersfree.com/courses-status/aprende-laravel-avanzado/recuperar-registros-individuales
 
 
 
