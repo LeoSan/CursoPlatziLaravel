@@ -1,0 +1,16 @@
+<?php return array (
+  'admin.bandeja-usuarios' => 'App\\Http\\Livewire\\Admin\\BandejaUsuarios',
+  'admin.catalogo-elementos' => 'App\\Http\\Livewire\\Admin\\CatalogoElementos',
+  'admin.catalogos' => 'App\\Http\\Livewire\\Admin\\Catalogos',
+  'admin.formularios' => 'App\\Http\\Livewire\\Admin\\Formularios',
+  'admin.inhabiles' => 'App\\Http\\Livewire\\Admin\\Inhabiles',
+  'admin.plantillas' => 'App\\Http\\Livewire\\Admin\\Plantillas',
+  'bandeja-auditorias' => 'App\\Http\\Livewire\\BandejaAuditorias',
+  'bandeja-bitacora' => 'App\\Http\\Livewire\\BandejaBitacora',
+  'bandeja-casos' => 'App\\Http\\Livewire\\BandejaCasos',
+  'bandeja-denuncias' => 'App\\Http\\Livewire\\BandejaDenuncias',
+  'bandeja-seguimiento-auditorias' => 'App\\Http\\Livewire\\BandejaSeguimientoAuditorias',
+  'bandeja-solicitud-expedientes' => 'App\\Http\\Livewire\\BandejaSolicitudExpedientes',
+  'bandeja-tablero-planeacion' => 'App\\Http\\Livewire\\BandejaTableroPlaneacion',
+  'tablero-informacion' => 'App\\Http\\Livewire\\TableroInformacion',
+);
