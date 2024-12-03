@@ -12,7 +12,7 @@
 |Migraciones  |
 |Querry Builder  |
 |Introducción Eloquent  |
-|Relaciones Eloquent  |
+|Relaciones Eloquent   |
 |Formularios  |
 |Kit de inicio  |
 |Solicitudes HTTP  |
@@ -25,13 +25,16 @@
 
 **Pasos para instalacción**
 **Comando para Instalar Laravel 10**
-- instalar laravel -> `composer global require laravel/installer`
-- composer create-project laravel/laravel laravel-app "10.*"
+- `composer global require laravel/installer` -> Con esto instalamos laravel de manera global 
+- `laravel new LaravelBreeze` -> Podemos usar comando laravel para crear un proyecto
+- `composer create-project laravel/laravel laravel-app "10.*"` -> Crear proyecto de manera manual y especificando version 
 - `laravel -v` -> Laravel Installer 4.5.0
 - `laravel new example-app`  -> forma mas rapida de instalar laravel 
+
 **Comando resaltantes para Laravel 10**
 - composer create-project laravel/laravel nombreProyecto "10.*"
 - composer require laravel/breeze --dev `<opcional>`-> Ya viene con ciertos componentes para realizar el login  
+
 **Sigue estos pasos en caso de atualizar composer**
 - En windows Se debe instalr el `Composer-Setup.exe`
 - Ejecutar los siguientes comandos
@@ -58,7 +61,7 @@
 
 **Tips Listas Route**
 - php artisan r:l -> Lista las router de manera mas corta 
-- php artisan r:l --path=cursos -> Lista las router de manera mas corta 
+- php artisan r:l --path=cursos -> Lista las q de manera mas corta 
 - php artisan r:l --except-vendor -> me trae las rutas menos las que fueron instaladas por algun paquete 
 - php artisan r:l --except-vendor -v -> me trae las rutas menos las que fueron instaladas por algun paquete y a parte me trae los nombre de los middleware 
 - php artisan r:l --only-vendor -v -> me trae las rutas de paquetes
@@ -70,10 +73,11 @@
 - `php artisan make:controller UserController` -> Crea un controlador 
 - `php artisan make:controller PhotoController --resource` -> crea controlador y sus rutas en total son 7 metodos, [index, show, update, create, destroy, patch, put]
 - `php artisan make:provider NombreEjemplo` -> Crear Provider 
+- `php artisan make:factory NombreFactory --model=NombreModelo`
 
 **Comandos View**
 - php artisan view:clear
-
+- php artisan optimize:clear
 **Comandos Blade Paginacion**
 - php artisan vendor:publish --tag=laravel-pagination
 
@@ -96,7 +100,7 @@
 
 ## Rutas 
 **Concepto**
-- Recuerda que laravel maneja las  rutas de manera eficiente en diferentes rutas y estas se ecnuentra en el directorio 
+- Recuerda que laravel maneja las  rutas de manera eficiente en diferentes rutas y estas se encuentran  en el directorio 
 - web.php -> controlas las rutas de tus paginas web
 - api.php -> controla las rutas de tus Apis 
 
@@ -1182,6 +1186,10 @@ $table->uuid('id');	Tipo de columna equivalente a UUID.
 $table->year('birth_year');	Tipo de columna equivalente a YEAR.
 ```
 
+
+
+
+
 **Modificadores de columna**
 Además de los tipos de columna listados anteriormente, hay varios «modificadores» de columna que puedes usar al momento de agregar una columna a la tabla de base de datos. Por ejemplo, para hacer que la columna «acepte valores nulos», puedes usar el método nullable.
 ```
@@ -1228,7 +1236,7 @@ class CreateUsersTable extends Migration
    public function up()
    {
        Schema::create('users', function (Blueprint $table) {
-           $table->id();
+           $table->bigIncrements('id'); 
            $table->string('name');
            $table->string('email')->unique();
            $table->string('password');
@@ -1353,6 +1361,12 @@ $table->unsignedSmallInteger('votes');	Tipo de columna equivalente a UNSIGNED SM
 $table->unsignedTinyInteger('votes');	Tipo de columna equivalente a UNSIGNED TINYINT.
 $table->uuid('id');	Tipo de columna equivalente a UUID.
 $table->year('birth_year');	Tipo de columna equivalente a YEAR.
+
+
+if (!Schema::hasColumn('tipo_tramites', 'activo')) {
+	$table->boolean('activo')->default(true)->comment('Bandera que indica si el tipo de trámite esta activo');
+}
+
 ```
 
 
@@ -1399,6 +1413,9 @@ Schema::table('users', function (Blueprint $table) {
 Schema::table('users', function (Blueprint $table) {
     $table->renameColumn('email', 'correo');
 });
+
+$table->string('nueva_columna')->after('columna_existente');
+
 ```
 **Nota**
 - para usar el rename debemos instalar un paquete ->   'composer require doctrine/dbal'
@@ -1653,8 +1670,8 @@ $users = DB::table('users')
 
 ```
 $users = DB::table('users')
-	->where('id' '<', 5)
-	->orWhere('id' '<', 5)
+	->where('id', '<', 5)
+	->orWhere('id', '<', 5)
 	->get();
 ```
 
@@ -1687,6 +1704,9 @@ $users = DB::table('users')
 	->whereColumn('created_at', '') //busca por el tiempo 
 	->get();
 ```
+
+**dar Formato** 
+{{ \Carbon\Carbon::parse($datos['documentos_identidad']->updated_at)->formatLocalized('%d %B %Y') }}
 
 
 ## 79. Agrupación lógica
@@ -1935,8 +1955,8 @@ return DB::table('user')
 ```
 
 
-# Introducción a Eloquent
-## 89. Eloquent: ¿Qué es y cómo funciona?
+# Introducción Eloquent
+##89. Eloquent: ¿Qué es y cómo funciona?
 
 - Eloquent es el ORM (Mapeo de Objetos Relacionales) de Laravel que te permite interactuar con bases de datos de manera eficiente y sencilla utilizando modelos de objetos. En este capítulo del curso de Laravel 10, aprenderás acerca de Eloquent y cómo funciona.
 - Eloquent utiliza convenciones para mapear modelos de objetos a tablas de bases de datos y columnas de manera automática. Por ejemplo, si creas un modelo de objeto llamado "User", Eloquent automáticamente buscará una tabla de bases de datos llamada "users" y una columna llamada "id" para representar la clave principal del modelo.
@@ -1947,16 +1967,121 @@ return DB::table('user')
 
 https://codersfree.com/courses-status/aprende-laravel-avanzado/recuperar-registros-individuales
 
+## 90. Recuperación de modelos
 
+```
+$user = User::find(1);
+La función find() devolverá un objeto del modelo correspondiente con los atributos del registro que se corresponden con el ID proporcionado.
+```
 
+## 91. Insertar modelos
 
+```
+Laravel 10 ofrece una manera fácil y eficiente de guardar registros en una base de datos utilizando Eloquent. En este capítulo del curso, aprenderás cómo crear nuevos registros y actualizar registros existentes utilizando Eloquent.
 
+Para crear un nuevo registro en una base de datos utilizando Eloquent, simplemente crea una instancia del modelo correspondiente y establece los valores de sus propiedades. Luego, llama al método "save" en la instancia del modelo para guardar el registro en la base de datos.
 
+Si necesitas actualizar un registro existente en una base de datos, simplemente recupera el registro utilizando el método "find" en el modelo correspondiente y actualiza los valores de sus propiedades. Luego, llama al método "save" en la instancia del modelo para guardar los cambios en la base de datos.
+```
 
+## 92. Asignación masiva
 
+> Una vez que hayas especificado qué atributos son asignables en masa, podrás utilizar el método create para insertar un nuevo registro en la base de datos y obtener la instancia del modelo recién creado:
+```
+$flight = Flight::create(['name' => 'London to Paris']);
+```
+> Si ya tienes una instancia del modelo y deseas llenarla con una matriz de atributos, puedes utilizar el método fill:
+```
+$flight->fill(['name' => 'Amsterdam to Frankfurt']);
+```
+> Estos métodos te permiten crear y actualizar registros de manera segura en tu base de datos utilizando Eloquent, evitando vulnerabilidades de asignación masiva.
 
+## 93. Actualizar modelos
 
+> La función save() se utiliza para actualizar un registro que ya ha sido recuperado de la base de datos. Después de realizar los cambios necesarios en el modelo, simplemente debes llamar a la función save() para guardar los cambios en la base de datos.
 
+- Por ejemplo, si deseas actualizar el nombre de un usuario con un ID de 1, puedes utilizar el siguiente código:
+```
+$user = User::find(1);
+$user->name = 'Nuevo nombre';
+$user->save();
+```
+> La función update() se utiliza para actualizar varios registros de la base de datos al mismo tiempo. Puedes utilizar esta función para actualizar registros que cumplen ciertos criterios de consulta.
+
+- Por ejemplo, si deseas actualizar todos los usuarios que tienen un nombre de "Antonio" y un correo electrónico que termina en "example.com", puedes utilizar el siguiente código:
+```
+User::where('name', 'Antonio')
+   ->where('email', 'like', '%example.com')
+   ->update(['name' => 'Nuevo nombre']);
+```
+- Este código actualizará todos los registros que cumplan los criterios especificados, y cambiará el nombre de los usuarios a "Nuevo nombre".
+
+## 94. Eliminar modelos
+
+> Para eliminar un registro con Eloquent, primero debes recuperar el modelo correspondiente de la base de datos utilizando alguna función de consulta, como find() o where(). Una vez que tienes el modelo, simplemente debes llamar a la función delete() para eliminar el registro de la base de datos.
+- Por ejemplo, si deseas eliminar un usuario con un ID de 1, puedes utilizar el siguiente código:
+```
+$user = User::find(1);
+$user->delete();
+```
+
+> También es posible eliminar varios registros al mismo tiempo utilizando la función delete() en una consulta.
+
+- Por ejemplo, si deseas eliminar todos los usuarios que tengan un correo electrónico que termine en "example.com", puedes utilizar el siguiente código:
+```
+User::where('email', 'like', '%example.com')
+   ->delete();
+```
+
+## 95. Factories
+
+> Para crear una fábrica de modelos en Laravel, puedes utilizar el comando make:factory de Artisan. Por ejemplo, para crear una fábrica para el modelo Post, ejecuta el siguiente comando:
+
+- `php artisan make:factory PostFactory --model=Post`
+- Esto generará un archivo llamado PostFactory.php en el directorio database/factories.
+
+> Dentro del archivo PostFactory.php, puedes definir los atributos predeterminados para tu modelo. Puedes utilizar la clase Faker para generar datos falsos. Aquí tienes un ejemplo:
+
+```
+use App\Models\Post;
+use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class PostFactory extends Factory
+{
+    protected $model = Post::class;
+
+    public function definition()
+    {
+        $faker = Faker::create();
+
+        return [
+            'title' => $faker->sentence,
+            'content' => $faker->paragraph,
+        ];
+    }
+}
+```
+- En este ejemplo, utilizamos el método sentence() de Faker para generar un título ficticio y el método paragraph() para generar contenido ficticio.
+
+- Utilizar fábricas en seeders o pruebas
+
+- Una vez que hayas definido tu fábrica, puedes utilizarla en seeders o pruebas para crear registros falsos. Por ejemplo, en un seeder, puedes crear 10 posts ficticios de la siguiente manera:
+
+```
+use Illuminate\Database\Seeder;
+use App\Models\Post;
+
+class DatabaseSeeder extends Seeder
+{
+    public function run()
+    {
+        Post::factory()->count(10)->create();
+    }
+}
+```
+
+- Enlace -> https://fakerphp.github.io/formatters/image/
 
 # Relaciones Eloquent 
 
@@ -2437,7 +2562,7 @@ y relacionar modelos de manera rápida y sencilla.
 
 # Formularios
 
-## 105. Agregar Navegabilidad 
+## 106. Agregar Navegabilidad 
 
 > Recuerda que laravel ya podemos crear componentes de manera muy similar react podemos ejecutar el comando 
 - `php artisan make:component DropdownMenu`
@@ -2446,7 +2571,7 @@ y relacionar modelos de manera rápida y sencilla.
 - Consejo recuerda que puedes usar href="{{route('nombre de tu ruta usando el ->name()')}}"
  
 
-## 106 Formularios y protección CSRF
+## 107 Formularios y protección CSRF
 - Es importante resaltar que en laravel podemos usar `CSRF` para que los formularios esten protegidos 
 - Se genera un token este laravel lo administra en tiempo de expiración y de rutado 
 - Esto es simple solo se coloca @csrf y laravel genera un campo typo hidden y le anexa un _token y este lo adminitra
@@ -2481,7 +2606,7 @@ y relacionar modelos de manera rápida y sencilla.
 - `return redirect()->route('post.index')` el nombre debe estar definido en tu route/web.php 
 - podemos usar el metodo Post::latest('id')->paginate(); en ves del orden by 
 
-## 107. Agregar Reglas de Validación
+## 108. Agregar Reglas de Validación
 
 **Concepto**
 - Para agregar reglas de validación en Laravel 10, primero debes crear una instancia de la clase Validator. 
@@ -2523,9 +2648,76 @@ $validator = validator(request()->all(), [
 ```
 - En este ejemplo, hemos proporcionado mensajes personalizados para las reglas 'required' y 'email' para los campos "nombre" y "correo electrónico".
 
+## Regla personalizada 
 
+Ejemplo esto lo hice dentro de un controlador 
 
-## 108. Mostrar Errores de Validación
+use Illuminate\Support\Facades\{Log, Validator};
+use Illuminate\Http\Request;
+
+   /**
+     * validarFormulario: validar formulario
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function validarFormulario(Request $request):void{
+        $rules = [
+            'motivo' => 'required|max:255',
+            'descripcion' => 'required',
+            'tipo_tramite_id' => 'required',
+            'tipo_resolucion_id' => 'required'
+        ];
+        $messages = [
+            'motivo.required'              => 'El motivo es obligatorio.',
+            'motivo.max'                   => 'El motivo tiene un máximo de 255 caráteres.',
+            'descripcion.required'         => 'La descripcion es obligatoria.',
+            'tipo_tramite_id.required'     => 'El tramite asociado es obligatorio.',
+            'tipo_resolucion_id.required'  => 'El tipo resolución es obligatorio.',
+        ];
+
+        if($request->input('accion') == 'nuevo'){
+
+            Validator::extend('unique_not_deleted', function ($valor)use($request) {
+                // Consultar la base de datos
+                $count = CatMotivos::where('motivo', $request->input('motivo'))
+                    ->where('tipo_tramite_id', $request->input('tipo_tramite_id'))
+                    ->where('tipo_resolucion_id', $request->input('tipo_resolucion_id'))
+                    ->whereNull('deleted_at')
+                    ->count();
+
+                // Devolver true si la combinación de valores es única
+                return $count === 0;
+            });
+
+            $rules['motivo'] = 'required|max:255|unique_not_deleted:cat_motivos';
+            $messages['motivo.unique_not_deleted'] =  'El motivo debe existir en una sola combinación, no se debe repetir.';
+            $messages['motivo.max:255'] =  'El motivo debe existir en una única combinación, no se debe repetir.';
+        }
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        $validator->validate();
+    }
+	
+## Confirmar campos en regla de validacion match password 	
+	
+```	
+	    $rules = [
+            'email'    => 'required|email',
+            'password' => 'required|confirmed:password_confirmation',
+
+        ];
+        $messages = [
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'El correo electrónico debe ser válido.',
+            'password.required' => 'El password es obligatorio.',
+            'password.confirmed' => 'El confirmación de password es obligatorio.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        return $validator->validate();
+```
+## 109. Mostrar Errores de Validación
 
 **Concepto**
 
@@ -2575,8 +2767,25 @@ $validatedData = $request->validate([
 - El mensaje personalizado incluye un marcador de posición :attribute, que será reemplazado por el nombre del campo correspondiente.
 
 En resumen, en este capítulo hemos aprendido cómo manejar los errores de validación en Laravel 10. Hemos visto cómo definir las reglas de validación en el controlador, cómo mostrar los errores de validación en la vista y cómo personalizar los mensajes de error. Ahora puedes utilizar este conocimiento para crear formularios más robustos y seguros en tu aplicación Laravel.
+```
+        request()->validate(
+            [
+                'domicilio.cp' => 'required|digits:5|valid_cp',
+                'domicilio.estado' => 'required',
+                'domicilio.municipio_alcaldia' => 'required',
+                'domicilio.colonia' => 'required',
+                'domicilio.calle' => 'required',
+                'domicilio.no_exterior' => 'required',
+            ],
+            [
+                'domicilio.*.required' => 'Campo obligatorio',
+                'domicilio.cp.valid_cp' => 'El código postal no existe, ingresa un código postal válido.',
+                'domicilio.cp.digits' => 'El campo código postal debe tener 5 dígitos',
+            ]
+        );
+```
 
-## 109. Recuperación de Entradas Antiguas con old()
+## 110. Recuperación de Entradas Antiguas con old()
 
 **Concepto**
 - Si estás trabajando con Laravel 10, es posible que en algún momento necesites recuperar datos de entradas antiguas en tu aplicación web. 
@@ -2600,7 +2809,7 @@ En resumen, en este capítulo hemos aprendido cómo manejar los errores de valid
 ```
 - En este caso, la función old() comprueba qué opción fue seleccionada en una entrada anterior y la selecciona automáticamente si se encuentra en el conjunto de opciones disponibles.
 
-## 110. Form Request
+## 111. Form Request
 
 **Concepto**
 - Cuando trabajas con Laravel 10, es importante asegurarte de que los datos de entrada de tu aplicación web sean válidos antes de procesarlos. 
@@ -2666,7 +2875,7 @@ class ControladorDatosEntrada extends Controller
 - Utilízalo para mejorar la integridad de tus datos y simplificar el proceso de validación en tu aplicación web.
 
 
-## 111. Route Model Binding
+## 112. Route Model Binding
 
 **Concepto**
 - permite generar URL amigables para que el motor de google pueda validarlo y rankearlo
@@ -2698,7 +2907,7 @@ public function edit(Post $post){//Usamos esto y en el web.php tambien indicando
 **Resumen**
 - Es un ejemplo practico pero debes tambien manejar validaciones ya que ese campo es unico
 
-## 112. Regla Unique
+## 113. Regla Unique
 
 **Concepto**
 - Cuando trabajas con Laravel 10, a menudo es necesario validar que los datos de entrada de un formulario sean únicos para evitar la creación de registros duplicados en la base de datos. 
@@ -2733,7 +2942,7 @@ $request->validate([
 - En este caso, la regla Unique comprueba que los valores de las columnas "nombre" y "correo electrónico" no estén ya presentes en la tabla "clientes" de la base de datos. El parámetro adicional $id se utiliza para excluir el registro actual de la comprobación de unicidad, lo que permite actualizar los registros existentes sin generar un error de validación.
 
 
-## 113. Regla Exists
+## 114. Regla Exists
 
 **Concepto**
 - Cuando trabajas con Laravel 10, es común necesitar validar la existencia de un registro en la base de datos antes de realizar una acción en él. 
@@ -2774,41 +2983,269 @@ se generará un mensaje de error de validación y el formulario no se enviará.
 
 # Kit de inicio
 
-## 114.  Cómo instalar Breeze en tu proyecto
-
-> Laravel nos permite crearun crud para realizar una autenticación, desde login, recuperación de contraseña, editar datos y guardar 
-
-```
-Breeze es un paquete oficial de Laravel que proporciona un sistema de autenticación simple y liviano para aplicaciones web. En este capítulo, aprenderás cómo instalar Breeze en tu proyecto Laravel 10 y cómo configurarlo para autenticar usuarios en tu aplicación.
-```
-
-**Pasos**
-- Paso 0: Claro crear tu proyecto laravel
-- Paso 1: `composer require laravel/breeze --dev`
-Este comando instala el paquete Breeze como una dependencia de desarrollo en tu proyecto Laravel 10. A continuación, ejecuta el siguiente comando para publicar los archivos de configuración y vistas de Breeze
-- Paso 2:`php artisan breeze:install` 
-- Paso 3:`php artisan migrate` 
-- Paso 4:`npm install` 
-- Paso 5:`npm run dev` 
-
-
-
 **Notas**
+- Laravel cuenta con dos paquetes oficiales 
+- Breeze    -> 
+   - Breeze es un paquete más ligero que proporciona las funcionalidades básicas de autenticación, 
+   - como el registro, el inicio de sesión y el restablecimiento de contraseñas. 
+   - Breeze está diseñado para ser fácil de instalar y configurar  
+   - Es una buena opción para aplicaciones que requieren una autenticación básica.
+
+- Jetstream -> 
+  - Jetstream es un paquete más completo que proporciona una gama más amplia 
+  - Tiene funcionalidades, incluyendo la autenticación de dos factores, los tokens API y la gestión de equipos. 
+  - Jetstream está diseñado para aplicaciones más complejas que requieren una autenticación más avanzada.
+
 - Se recomienda solo usar esto desde un proyecto desde cero 
 
-## 115.  Cómo instalar Breeze en tu proyecto
 
-Breeze es un paquete oficial de Laravel que permite implementar la autenticación de usuarios de manera rápida y sencilla en tu aplicación. En este capítulo, exploraremos la estructura de Breeze y cómo implementa la autenticación en Laravel 10.
+## 115. Cómo instalar Breeze en tu proyecto
 
-Cuando instalas Breeze en tu proyecto Laravel, se agregan varios archivos y directorios que contienen el código fuente necesario para manejar la autenticación. El archivo principal es routes/web.php, donde se definen las rutas para la autenticación, el registro y la recuperación de contraseñas. También se incluyen vistas y controladores en los siguientes directorios:
+**Pasos**
+- Paso 0: laravel new LaravelBreeze -> Ya te salen las opciones para escoger como lo deseamos instalar 
+- Paso 1: `composer require laravel/breeze --dev`
+Este comando instala el paquete Breeze como una dependencia de desarrollo en tu proyecto Laravel 10. A continuación, ejecuta el siguiente comando para publicar los archivos de configuración y vistas de Breeze
+- Paso 2:`php artisan breeze:install` -> No es necesario ejecutar 
+- Paso 3: Ojo antes de este comando debes generar la BASE de datos y anexarla en el .env
+		`php artisan migrate` 
+- Paso 4:`npm install` 
+- Paso 5:`npm run dev` -> Recuerda que usamos como base VITE por lo que cuando ejecutamos este comando se carga un servidor JS en este caso VITE 
+- Paso 6: Validamos desde el navegador
 
-app/Http/Controllers/Auth: Contiene los controladores de autenticación para manejar el inicio de sesión, el registro y la recuperación de contraseñas.
-resources/views/auth: Contiene las vistas para los formularios de inicio de sesión, registro y recuperación de contraseñas.
-resources/views/layouts: Contiene la plantilla de diseño principal de la aplicación, que se utiliza para envolver todas las vistas de la aplicación, incluyendo las vistas de autenticación.
-En cuanto a la personalización de la apariencia de los formularios de inicio de sesión y registro, Breeze utiliza las vistas Blade de Laravel para generar el HTML de los formularios. Esto significa que puedes personalizar el HTML de los formularios modificando las vistas Blade en resources/views/auth. Además, también puedes personalizar los estilos CSS de los formularios agregando tus propias reglas CSS en tus archivos CSS personalizados.
-
-En resumen, la estructura de Breeze en Laravel 10 es simple y bien organizada. Con los archivos y directorios predeterminados, puedes implementar la autenticación de usuarios en tu aplicación con muy poco esfuerzo. Y si deseas personalizar la apariencia de los formularios de autenticación, simplemente debes modificar las vistas y los estilos CSS.
+![Breeze_Ejemplo](./info/Breeze_Ejemplo.png)
 
 **Notas**
+
+## 116. Estructura de Breeze
+
+- **app/Http/Controllers/Auth:** Contiene los controladores de autenticación para manejar el inicio de sesión, el registro y la recuperación de contraseñas.
+- **resources/views/auth:** Contiene las vistas para los formularios de inicio de sesión, registro y recuperación de contraseñas.
+- **resources/views/layouts:** Contiene la plantilla de diseño principal de la aplicación, que se utiliza para envolver todas las vistas de la aplicación, incluyendo las vistas de autenticación.
+
+**Notas**
+- Si queremos que nuestro proyecto tome los CSS y  los JS ya generados por build debemos eliminar este archivo `C:\laragon\www\LaravelBreeze\public\hot` ya que esto le indica al laravel que seguimos modo DEV
 - Tips para validar enlace si esta en la ruta 
-![Ejemolo](./info/info_007.png)
+![Ejemplo](./info/info_007.png)
+
+## 117. Como instalar Jetstream en tu proyecto 
+
+**Pasos**
+- Paso 0: `laravel new LaravelJetstream`
+- Paso 1: Seguimos los pasos de configuracion 
+- Paso 1.2: Escogemos LiveWire -> Por defecto ya que usa Blade esto hay que pulir mas ya que esto lo usamos en el proyecto de honduras -> 
+            Hay que validar como instalarlo en proyectos existentes 
+			para eso es este comando `composer require laravel/jetstream` 
+- Paso 1.2: Vue se debe tener conocimientos basicos en react 
+- Paso 2: Ejecutamos el comando si es necesario ojo esto es cuando es proyecto ya creado
+          - php artisan jetstream:install Livewire 
+- Paso 3: Ojo antes de este comando debes generar la BASE de datos y anexarla en el .env
+		`php artisan migrate` 
+		  
+- Paso 4: `npm install`		  
+- Paso 5: `npm run dev`		  
+
+# Proyecto Final 
+ 
+## 118. Como crear otro archivos de rutas Laravel
+
+**Notas**
+- En primer lugar, es importante definir la estructura de carpetas de nuestro proyecto. 
+- Laravel 10 ya nos proporciona una estructura básica de carpetas que podemos utilizar como punto de partida, 
+pero podemos personalizarla según nuestras necesidades. 
+
+Por ejemplo, podemos crear una carpeta "app" para contener nuestros modelos, 
+controladores y lógica de negocio, o una carpeta "resources" para nuestros archivos de vistas, 
+traducciones y otros recursos.
+
+Una vez que hayamos establecido la estructura de carpetas, podemos comenzar a crear nuestros modelos, 
+controladores y rutas. 
+
+Es importante seguir las convenciones de nomenclatura de Laravel 10 para facilitar la comprensión del código por 
+parte de otros desarrolladores. 
+
+Por ejemplo, los nombres de los modelos deben estar en singular y en mayúscula la primera letra, 
+mientras que los nombres de las tablas deben estar en plural y en minúscula separados por guiones bajos.  
+
+**Importante** 
+- Sabemos que las rutas van estar creciendo a medida que crece el proyecto, laravel nos permite crear archivos router e integrarlo al proyecto 
+
+- Paso 1: Creamos nuestro archivo nuevo en el directorio router `routes` 
+	- Para este caso creamos `admin.php` 
+- Paso 2: debemos establecer en las configuraciones de laravel este nuevo router y esto se hace en los archivos provider 
+	- app\Providers\RouteServiceProvider.php ->  este es el archivo que debemos allar
+	- Debemos agregar el nombre de la nueva ruta en un metodo boot(); 
+```
+            Route::middleware('web')
+                ->prefix('admin')
+                ->group(base_path('routes/admin.php'));
+
+
+```
+
+**Ejemplo**
+- Este te permite redireccionar y pasar parametros en la ruta GET         
+		return redirect()->route('show.motivos.resolucion', compact('motivos', 'elementos', 'attr'))->with($mensaje['tipo'],$mensaje['mensaje']);
+        
+- Este te permite redireccionar usando view no te muestra nada en get 		
+		return view('catalogos/motivos/index', compact('motivos', 'elementos', 'attr'))->with($mensaje['tipo'],$mensaje['mensaje']);
+        
+- Este te permite redireccionar usando with sin que se muestre en la ruta get 		
+		return redirect()->route('show.motivos.resolucion')
+            ->with('motivos', $motivos)
+            ->with('elementos', $elementos)
+            ->with('attr', $attr)
+            ->with($mensaje['tipo'], $mensaje['mensaje']);
+			
+			
+#Notas  
+			
+>![Nota]
+> Eloquent: Mutadores y Conversión
+En Laravel, Eloquent nos proporciona herramientas poderosas para manipular los datos de nuestros modelos antes de que sean almacenados o recuperados de la base de datos. Los mutadores y la conversión son dos de estas herramientas.
+
+Mutadores
+Los mutadores nos permiten modificar el valor de un atributo antes de que sea almacenado en la base de datos (mutador de escritura) o antes de que sea recuperado (mutador de lectura). Esto es especialmente útil cuando queremos:
+
+Formatear datos: Convertir una fecha a un formato específico, encriptar contraseñas, etc.
+Calcular valores: Obtener un valor a partir de otros atributos, como el precio total de un pedido.
+Validar datos: Asegurarnos de que los datos cumplen con ciertos criterios antes de guardarlos.
+Ejemplo:
+
+Supongamos que tenemos un modelo User y queremos encriptar la contraseña antes de guardarla en la base de datos:
+
+PHP
+class User extends Model
+{
+    protected $fillable = ['name', 'email', 'password'];
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);   
+
+    }
+}
+Usa el código con precaución.
+
+En este ejemplo, el método setPasswordAttribute es un mutador de escritura. Cada vez que se asigna un valor a la propiedad password, este método se ejecutará y encriptará la contraseña antes de almacenarla.
+
+Conversión de Atributos
+La conversión de atributos nos permite convertir automáticamente un atributo a un tipo de dato específico cuando se recupera o se establece. Por ejemplo, podemos convertir una cadena de texto a un objeto Carbon para representar una fecha, o un valor JSON a un array.
+
+Ejemplo:
+
+PHP
+class Post extends Model
+{
+    protected $casts = [
+        'published_at' => 'datetime',
+        'options' => 'array',
+    ];
+}
+Usa el código con precaución.
+
+En este ejemplo, el atributo published_at será automáticamente convertido a un objeto Carbon cuando sea recuperado, y el atributo options será convertido a un array.
+
+Diferencia entre Mutadores y Conversión
+Característica	Mutadores	Conversión
+Personalización	Alta	Media
+Complejidad	Mayor	Menor
+Uso	Para transformaciones complejas y personalizadas	Para conversiones de tipos de datos comunes
+
+Exportar a Hojas de cálculo
+Cuándo usar cada uno:
+
+Mutadores: Cuando necesitas realizar transformaciones complejas o personalizadas en los datos, como encriptar contraseñas, calcular valores, o aplicar lógica de negocio específica.
+Conversión: Cuando quieres convertir automáticamente atributos a tipos de datos comunes, como fechas, arrays o objetos.
+Ejemplo Completo
+PHP
+class Product extends Model
+{
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
+    public function getPriceAttribute($value)
+    {
+        return number_format($value, 2); // Formatea el precio con dos decimales
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return $value->format('d/m/Y'); // Formatea la fecha de creación
+    }
+}
+Usa el código con precaución.
+
+En este ejemplo:
+
+Los atributos created_at y updated_at se convierten automáticamente a objetos Carbon.
+El mutador getPriceAttribute formatea el precio con dos decimales antes de devolverlo.
+El mutador getCreatedAtAttribute formatea la fecha de creación antes de devolverla.
+En resumen:
+
+Los mutadores y la conversión son herramientas poderosas en Eloquent que te permiten personalizar la forma en que se manejan los datos en tus modelos. Al utilizarlos de manera efectiva, puedes mejorar la calidad y la seguridad de tu aplicación.			
+
+¿Qué son los Scopes?
+
+En Laravel, los scopes son métodos definidos dentro de un modelo Eloquent que permiten agregar condiciones a las consultas de forma reutilizable y concisa. Son como pequeños filtros que puedes aplicar a tus consultas para obtener resultados más específicos.
+
+¿Para qué sirven?
+
+Reutilización de código: Evita repetir las mismas condiciones en diferentes partes de tu aplicación.
+Mejora de la legibilidad: Hace que tu código sea más limpio y fácil de entender.
+Abstracción de la lógica de consulta: Separa la lógica de filtrado de la lógica de negocio principal.
+Tipos de Scopes
+
+Scopes locales: Se definen dentro de un modelo y se aplican a las instancias de ese modelo.
+Scopes globales: Se aplican a todas las consultas de un modelo, a menos que se deshabiliten explícitamente.
+Ejemplo de un Scope Local:
+
+PHP
+class Post extends Model
+{
+    public function scopePublished($query)
+    {
+        return $query->where('published', 1);
+    }
+}
+Usa el código con precaución.
+
+En este ejemplo, el scope published filtra los posts que tienen el campo published igual a 1. Para utilizarlo:
+
+PHP
+$publishedPosts = Post::published()->get();
+Usa el código con precaución.
+
+Ejemplo de un Scope Global:
+
+PHP
+class Post extends Model
+{
+    protected static function booted()
+    {
+        static::addGlobalScope('active', function (Builder $builder) {
+            $builder->where('active',   
+ 1);
+        });
+    }
+}
+Usa el código con precaución.
+
+Este scope global filtrará todas las consultas de Post para obtener solo los registros activos.
+
+¿Cómo funcionan los Scopes?
+
+Los scopes reciben un objeto Builder como parámetro.
+Modifican el Builder agregando condiciones, ordenamientos, etc.
+El resultado del scope es un nuevo Builder con las condiciones aplicadas.
+Ventajas de usar Scopes:
+
+Mayor expresividad: Hace que tu código sea más declarativo.
+Facilita el mantenimiento: Al centralizar la lógica de filtrado en los scopes, es más fácil modificar las condiciones en el futuro.
+Promueve la reutilización: Los scopes pueden ser utilizados en diferentes partes de tu aplicación.
+Cuándo usar Scopes:
+
+Cuando necesitas aplicar filtros comunes a tus consultas.
+Cuando quieres hacer que tu código sea más legible y mantenible.
+Cuando necesitas crear consultas complejas de forma concisa.
