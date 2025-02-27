@@ -1934,7 +1934,6 @@ return DB::table('user')
 //Ejemplo A 
 //paginate 
 
-
 return DB::table('user')
 	->paginate(
 	,15//Total de registros que se verá por cada pagina 
@@ -1950,9 +1949,13 @@ return DB::table('user')
 	->simplePaginate(
 	,15//Total de registros que se verá por cada pagina 
 	);  
-	
-	
+
 ```
+
+<div class="d-flex justify-content-center">
+		{{-- {!! $tramites->links() !!} --}}
+		{{ $tramites->appends(Request::except('page'))->links() }}
+</div>
 
 
 # Introducción Eloquent
@@ -3249,3 +3252,31 @@ Cuándo usar Scopes:
 Cuando necesitas aplicar filtros comunes a tus consultas.
 Cuando quieres hacer que tu código sea más legible y mantenible.
 Cuando necesitas crear consultas complejas de forma concisa.
+
+### Fecha carbon Ejemplo 
+{{ (count(@$datos['documentos']??[])>0)? 'border-bottom border-dark my-4' : '' }}
+{{ \Carbon\Carbon::parse($datos['documentos_identidad']->updated_at)->formatLocalized('%d %B %Y') }}
+\Carbon\Carbon::parse(@$asociacion->fecha_registro)->format('d/m/Y')
+{{ \Carbon\Carbon::now()->format('Y-m-d') }}
+
+
+## Ejemplo Eloquent consulta anidada 
+
+
+public function obtenerAnalisisJuridicoDos($consulta, $e_ajuridico, $isCount){
+      $result = $consulta->whereNotNull('tramites.limite_prevencion')
+        ->whereIn('tramites.cat_estatus_id',$e_ajuridico)
+        ->whereIn('tramites.id', function ($query) use ($consulta) {
+          $tramiteIds = $consulta->pluck('tramites.id')->toArray();
+          $query->select('bitacora.referencia_id')
+                ->from('bitacora')
+                ->whereIn('bitacora.referencia_id', $tramiteIds)
+                ->where('bitacora.code', 'estatus-tramite')
+                ->where('bitacora.subcode', 'prevencion')
+                ->whereNot('bitacora.subcode', 'finalizado');
+        })
+        ->when($isCount, function ($query)  {
+          return $query->count();
+        });
+      return $result; 
+    }
