@@ -18,7 +18,7 @@
 |Solicitudes HTTP  |
 |Validaciones  |
 
-
+Mejor rendiemiento -> sysdm.cpl -> comando windows
 --- 
 
 ## Lista de Comandos Utiles 
@@ -576,27 +576,33 @@ Hello, {!! $name !!}.
 
 **Pasos
 - Por ejemplo, si se tiene la siguiente vista de Blade que usa llaves rizadas tanto para Blade como para el marco de JavaScript:
-```
+
 <h1>Laravel</h1>
 Hello, {{ name }}.
-```
+
 - El motor de Blade procesará la expresión {{ name }}, lo que puede interferir con el marco de JavaScript. 
 - Para evitar esto, se puede usar la sintaxis del símbolo @ para escapar la expresión de Blade:
-```
+
 <h1>Laravel</h1>
 Hello, @{{ name }}.
-```
+
 - En este caso, Blade eliminará el símbolo @, pero la expresión {{ name }} permanecerá intacta, lo que permitirá que el marco de JavaScript la procese.
 - Además, también se puede utilizar el símbolo @ para escapar de las directivas de Blade, como en el siguiente ejemplo:
 
-```
+
 {{-- Blade template --}}
 @@if()
  
 <!-- HTML output -->
 @if()
 De esta manera, se puede evitar que Blade procese una directiva y se puede imprimir la directiva sin procesar en la salida HTML.
-```
+
+@if( !in_array($asociacion->tipoSerie?->code, ['tipo_serie_componente', 'tipo_serie_federacion', 'tipo_serie_confederacion']) ) required @endif
+
+
+if (!\Request::is('revision/acuse-analisis-formal/*') && !\Request::is('tramites/solicitud-tramite/*') && !\Request::is('firma/*')) {
+	$html.='<p class="border-top mt-1 pt-1">'.$documento->descripcion.' </p><p><a data-componente="documento" data-documento="'.$documento->id.'" href="" class="opcion-resumen link-pdf link-stps font-weight-bold mt-2 mb-2"><img src="'.asset('images/icons/pdf-chiquito.svg').'">Ver documento</a>'.$documento->fecha_carga.'</p>';
+}
 
 ## 36. Directiva @json
 
@@ -606,7 +612,7 @@ De esta manera, se puede evitar que Blade procese una directiva y se puede impri
 - @Json viene de la paleta -> Illuminate\Support\Js::from.
 - 
 
-```
+
 //Por ejemplo, en lugar de llamar a json_encode manualmente como en este ejemplo:
 
 <script>
@@ -631,13 +637,13 @@ Además, en las últimas versiones del esqueleto de la aplicación Laravel, se i
     let app = @json($post);
 	console.log(app);
 </script>
-```
+
 
 ## 37. Directivas condicionales
 
 >  Aprenderás sobre las diferentes directivas disponibles, que son @if, @unless, @isset y @empty
 
-```
+
 //En Blade, puedes construir sentencias condicionales utilizando las directivas @if, @elseif, @else y @endif, que funcionan de manera similar a sus contrapartes en PHP. Por ejemplo:
 
 @if (count($records) === 1)
@@ -1065,7 +1071,7 @@ container.blade.php
 ```
  @stack('meta')
 
-```
+
 
 **Nota** 
 - @stack es casi igual que @yield solo que stack podremos usar el push sin necesidad de declarar una section  
@@ -3098,6 +3104,9 @@ mientras que los nombres de las tablas deben estar en plural y en minúscula sep
             ->with('elementos', $elementos)
             ->with('attr', $attr)
             ->with($mensaje['tipo'], $mensaje['mensaje']);
+			
+- Este es mas rustico pero se hace desde el controlador  
+	return Redirect::to( route($ruta_nuevo, ['asociacion_id' => $asociacion_id, 'tramite_id' => $tramite_id, 'asociacion_previa_id' => $previa_id, 'tipo_tramite_id' => $tipo_tramite_modificacion, 'tipo_tramite' => $tramite_code, 'tramite_code' => $tramite_code, 'vista' => $vista, 'entidad_tramite' => $entidad_tramite]));			
 			
 			
 #Notas  
